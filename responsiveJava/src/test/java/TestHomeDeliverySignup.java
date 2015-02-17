@@ -1,4 +1,4 @@
-package test;
+package test.java;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -20,7 +20,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
-public class HomeDeliverySignup {
+public class TestHomeDeliverySignup {
 
 	public  String SELENIUM_HUB_URL;
 	public  String TARGET_SERVER_URL;
@@ -46,56 +46,60 @@ public class HomeDeliverySignup {
 		WebDriver driver = null;
 		try {
 			driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
-			
-			//  test starts in Codes entity list page
-			 driver.get(TARGET_SERVER_URL);
 
-			// rest of test commands come here
+			//  test starts in Codes entity list page
+			driver.get(TARGET_SERVER_URL);
+			
+
+			
+			String reportkey = (String) browser.getCapability("reportKey");
+			String executionId = (String) browser.getCapability("executionId");
+
 
 			//driver.get("http://www.bostonglobe.com/");
-			 System.out.println(SELENIUM_HUB_URL + " " + browser.getPlatform());
-				driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-				driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+			System.out.println(SELENIUM_HUB_URL + " " + browser.getPlatform());
+			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 
-				
-				
-				//driver.findElement(By.xpath("//a[text()='Home Delivery']")).click();
-				
-				
-				driver.findElement(By.xpath("//input[@id='txtZip']")).sendKeys("02116");
-				
-				driver.findElement(By.xpath("//input[@id='cmdSubmit']")).click();
-				
-				Thread.sleep(2000);
-				
-				driver.findElement(By.xpath("//label[@for='rdSubscription1']")).click();
-				
-				driver.findElement(By.xpath("//div[@id='continue_btn']")).click();
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				
-				driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
-				
-				driver.findElement(By.xpath("//input[@id='txtDeliveryLastName']")).sendKeys("McCartney");
-				
-				driver.findElement(By.xpath("//input[@id='txtDeliveryAddress1']")).sendKeys("28 Main St");
-				
-				driver.findElement(By.xpath("//input[@id='txtDeliveryAddress2']")).sendKeys("Apt. 2");
-				
-				driver.findElement(By.xpath("//input[@id='txtDeliveryAreaCode']")).sendKeys("781");
-				
-				driver.findElement(By.xpath("//input[@id='txtDeliveryPhone3']")).sendKeys("847");
-				
-				driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");		
-				
-				driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");			
-				
-				
+
+
+			//driver.findElement(By.xpath("//a[text()='Home Delivery']")).click();
+
+
+			driver.findElement(By.xpath("//input[@id='txtZip']")).sendKeys("02116");
+
+			driver.findElement(By.xpath("//input[@id='cmdSubmit']")).click();
+
+			Thread.sleep(2000);
+
+			driver.findElement(By.xpath("//label[@for='rdSubscription1']")).click();
+
+			driver.findElement(By.xpath("//div[@id='continue_btn']")).click();
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+
+			driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
+
+			driver.findElement(By.xpath("//input[@id='txtDeliveryLastName']")).sendKeys("McCartney");
+
+			driver.findElement(By.xpath("//input[@id='txtDeliveryAddress1']")).sendKeys("28 Main St");
+
+			driver.findElement(By.xpath("//input[@id='txtDeliveryAddress2']")).sendKeys("Apt. 2");
+
+			driver.findElement(By.xpath("//input[@id='txtDeliveryAreaCode']")).sendKeys("781");
+
+			driver.findElement(By.xpath("//input[@id='txtDeliveryPhone3']")).sendKeys("847");
+
+			driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");		
+
+			driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");			
+
+
 
 		} finally {
 			if (driver != null) {
@@ -126,10 +130,12 @@ public class HomeDeliverySignup {
 	@Parameters({ "targetEnvironment" })
 	@Test
 	public void test(String targetEnvironment) throws MalformedURLException,
-			IOException, InterruptedException {
+	IOException, InterruptedException {
 
 		boolean device = false;
 		DesiredCapabilities capabilities = new DesiredCapabilities();
+
+
 		switch (targetEnvironment) {
 		case "Galaxy S5":
 			device = true;
@@ -137,14 +143,14 @@ public class HomeDeliverySignup {
 			capabilities.setCapability("description", "Patrick");
 			capabilities.setCapability("browser", "Chrome");
 			break;
-			
+
 		case "iPhone 6":
 			device = true;
 			capabilities.setCapability("platformName", "iOS");
 			capabilities.setCapability("description", "Patrick");
 			capabilities.setCapability("browser", "mobileSafari");
 			break;
-			
+
 		case "Internet Explorer 11":
 			device = false;
 			DesiredCapabilities.internetExplorer();
@@ -153,28 +159,28 @@ public class HomeDeliverySignup {
 			capabilities.setCapability("version", "11");
 			capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true); 
 			break;
-			
+
 		case "Internet Explorer 10":
 			device = false;
 			capabilities.setCapability("platform", Platform.ANY);
 			capabilities.setCapability("browserName", "internet explorer");
 			capabilities.setCapability("version", "10");
 			break;	
-			
+
 		case "Firefox 34":
 			device = false;
 			capabilities.setCapability("platform", Platform.ANY);
 			capabilities.setCapability("browserName", "firefox");
 			capabilities.setCapability("version", "34.0");
 			break;
-			
+
 		case "Firefox 35":
 			device = false;
 			capabilities.setCapability("platform", Platform.ANY);
 			capabilities.setCapability("browserName", "firefox");
 			capabilities.setCapability("version", "35.0");
 			break;
-			
+
 		case "Chrome":
 			device = false;
 			capabilities.setCapability("platform", Platform.ANY);
@@ -187,7 +193,7 @@ public class HomeDeliverySignup {
 				"test.target.server.url", "http://homedelivery.bostonglobe.com/");
 
 		if (device) {
-			
+
 			System.out.println(targetEnvironment + ": device");
 			String host = "demo.perfectomobile.com";
 			String user = URLEncoder.encode("patrickm@perfectomobile.com",
