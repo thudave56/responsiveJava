@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="10" name="Java Responsive Web" parallel="tests">
+
+
+
+	<test name="Find Local Store - Galaxy S5">
+		<parameter name="targetEnvironment" value="Galaxy S5" />
+		<classes>
+			<class name="test.HomeDeliverySignup" />
+		</classes>
+	</test>
+	<test name="Find Local Store - iPhone 6">
+		<parameter name="targetEnvironment" value="iPhone 6" />
+		<classes>
+			<class name="test.HomeDeliverySignup" />
+		</classes>
+	</test>
+
+
+
+
+	<test name="Find Local Store - IE 10">
+		<parameter name="targetEnvironment" value="Internet Explorer 10" />
+		<classes>
+			<class name="test.HomeDeliverySignup" />
+		</classes>
+	</test>
+
+
+	<test name="Find Local Store - FF 34">
+		<parameter name="targetEnvironment" value="Firefox 34" />
+		<classes>
+			<class name="test.HomeDeliverySignup" />
+		</classes>
+	</test>
+	<test name="Find Local Store - FF 35">
+		<parameter name="targetEnvironment" value="Firefox 35" />
+		<classes>
+			<class name="test.HomeDeliverySignup" />
+		</classes>
+	</test>
+	<test name="Find Local Store - Chrome">
+		<parameter name="targetEnvironment" value="Chrome" />
+		<classes>
+			<class name="test.HomeDeliverySignup" />
+		</classes>
+	</test>
+
+	<test name="Find Local Store - IE 11">
+		<parameter name="targetEnvironment" value="Internet Explorer 11" />
+		<classes>
+			<class name="test.HomeDeliverySignup" />
+		</classes>
+	</test>
+
+
+</suite> 
