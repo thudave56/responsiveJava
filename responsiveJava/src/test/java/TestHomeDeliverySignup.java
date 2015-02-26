@@ -230,7 +230,6 @@ public class TestHomeDeliverySignup {
 					"test.selenium.hub.url",
 					"http://seleniumgrid.perfectomobilelab.net:4444/wd/hub"); 
 			
-
 		}
 
 		signUp(capabilities);
