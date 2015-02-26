@@ -228,7 +228,8 @@ public class TestHomeDeliverySignup {
 			System.out.println(targetEnvironment + ": desktop");;
 			SELENIUM_HUB_URL = getConfigurationProperty("SELENIUM_HUB_URL",
 					"test.selenium.hub.url",
-					"http://seleniumgrid.perfectomobilelab.net:4444/wd/hub");
+					"http://seleniumgrid.perfectomobilelab.net:4444/wd/hub"); 
+			
 
 		}
 
