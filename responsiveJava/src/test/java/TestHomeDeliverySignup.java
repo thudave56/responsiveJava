@@ -2,6 +2,7 @@ package test.java;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
@@ -22,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 
 public class TestHomeDeliverySignup {
 
+	
+	
 	public  String SELENIUM_HUB_URL;
 	public  String TARGET_SERVER_URL;
 
@@ -50,11 +53,16 @@ public class TestHomeDeliverySignup {
 			//  test starts in Codes entity list page
 			driver.get(TARGET_SERVER_URL);
 			
+			System.out.println(System.getProperty("user.dir"));
 
+//			DesiredCapabilities reportCap;
+//			reportCap = (DesiredCapabilities) driver;
+//			String reportkey = (String) browser.getCapability("reportKey");
+//			String executionId = (String) browser.getCapability("executionId");
 			
-			String reportkey = (String) browser.getCapability("reportKey");
-			String executionId = (String) browser.getCapability("executionId");
-
+//
+//			System.out.println(reportkey);
+//			System.out.println(executionId);
 
 			//driver.get("http://www.bostonglobe.com/");
 			System.out.println(SELENIUM_HUB_URL + " " + browser.getPlatform());
@@ -110,6 +118,17 @@ public class TestHomeDeliverySignup {
 
 	}
 
+	
+	@DataProvider(parallel = true)
+	  public Object[][] dp() {
+	    return new Object[][] {
+	      new Object[] { "Android", "Patrick", "Chrome" },
+	      new Object[] { "iOS", "Patrick", "Safari" },
+	    };
+	  }
+	
+	
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
@@ -209,7 +228,7 @@ public class TestHomeDeliverySignup {
 			System.out.println(targetEnvironment + ": desktop");;
 			SELENIUM_HUB_URL = getConfigurationProperty("SELENIUM_HUB_URL",
 					"test.selenium.hub.url",
-					"http://209.166.166.178:4444/wd/hub");
+					"http://seleniumgrid.perfectomobilelab.net:4444/wd/hub");
 
 		}
 
