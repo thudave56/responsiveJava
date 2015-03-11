@@ -74,9 +74,9 @@ public class TestHomeDeliverySignup {
 			//driver.findElement(By.xpath("//a[text()='Home Delivery']")).click();
 
 
-			driver.findElement(By.xpath("//input[@id='txtZip']")).sendKeys("02116");
+			driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
 
-			driver.findElement(By.xpath("//input[@id='cmdSubmit']")).click();
+			driver.findElement(By.xpath("//input[@id='cmdSubmit'] | (//div[@id='ubmit'])[1]")).click();
 
 			Thread.sleep(2000);
 
@@ -119,14 +119,14 @@ public class TestHomeDeliverySignup {
 	}
 
 	
-	@DataProvider(parallel = true)
-	  public Object[][] dp() {
-	    return new Object[][] {
-	      new Object[] { "Android", "Patrick", "Chrome" },
-	      new Object[] { "iOS", "Patrick", "Safari" },
-	    };
-	  }
-	
+//	@DataProvider(parallel = true)
+//	  public Object[][] dp() {
+//	    return new Object[][] {
+//	      new Object[] { "Android", "Patrick", "Chrome" },
+//	      new Object[] { "iOS", "Patrick", "Safari" },
+//	    };
+//	  }
+//	
 	
 	
 	@BeforeClass
