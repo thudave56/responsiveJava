@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -58,8 +59,7 @@ public class TestHomeDeliverySignup {
 //			DesiredCapabilities reportCap;
 //			reportCap = (DesiredCapabilities) driver;
 //			String reportkey = (String) browser.getCapability("reportKey");
-//			String executionId = (String) browser.getCapability("executionId");
-			
+//			String executionId = (String) browser.getCapability("executionId");		
 //
 //			System.out.println(reportkey);
 //			System.out.println(executionId);
@@ -76,7 +76,7 @@ public class TestHomeDeliverySignup {
 
 			driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
 
-			driver.findElement(By.xpath("//input[@id='cmdSubmit'] | (//div[@id='ubmit'])[1]")).click();
+			driver.findElement(By.xpath("//div[@name='cmdSubmit']")).click();
 
 			Thread.sleep(2000);
 
@@ -112,6 +112,12 @@ public class TestHomeDeliverySignup {
 		} finally {
 			if (driver != null) {
 				driver.close();
+				
+//				Capabilities capabilities = driver.getCapabilities();
+//				String executionId = (String) capabilities.getCapability("executionId");
+//				String reportKey = (String) capabilities.getCapability("reportKey");
+				
+				
 				driver.quit();
 			}
 		}
@@ -160,7 +166,7 @@ public class TestHomeDeliverySignup {
 			device = true;
 			capabilities.setCapability("platformName", "Android");
 			capabilities.setCapability("description", "Patrick");
-			capabilities.setCapability("browser", "Chrome");
+			capabilities.setCapability("browser", "mobileOS");
 			break;
 
 		case "iPhone 6":
