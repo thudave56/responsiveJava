@@ -66,8 +66,9 @@ public class TestHomeDeliverySignup {
 
 			//driver.get("http://www.bostonglobe.com/");
 			System.out.println(SELENIUM_HUB_URL + " " + browser.getPlatform());
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+			
+			driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
 
 
