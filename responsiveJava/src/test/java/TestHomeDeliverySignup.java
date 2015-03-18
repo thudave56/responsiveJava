@@ -98,6 +98,7 @@ public class TestHomeDeliverySignup {
 				e2.printStackTrace();
 			}
 
+			
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
 			
 			driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
