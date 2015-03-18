@@ -2,6 +2,8 @@ package test.java;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -9,167 +11,46 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.perfectomobile.httpclient.utils.FileUtils;
+
+import ru.yandex.qatools.allure.annotations.Attachment;
+
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 //import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
+
 public class TestHomeDeliverySignup {
 
-	
-	
 	public  String SELENIUM_HUB_URL;
 	public  String TARGET_SERVER_URL;
-
-	private static String getConfigurationProperty(String envKey,
-			String sysKey, String defValue) {
-		String retValue = defValue;
-		String envValue = System.getenv(envKey);
-		String sysValue = System.getProperty(sysKey);
-		// system property prevails over environment variable
-		if (sysValue != null) {
-			retValue = sysValue;
-		} else if (envValue != null) {
-			retValue = envValue;
-		}
-		return retValue;
-	}
-
-//test
-
-	public void signUp(DesiredCapabilities browser)
-			throws MalformedURLException, IOException, InterruptedException {
-		WebDriver driver = null;
-		try {
-			driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
-
-			//  test starts in Codes entity list page
-			driver.get(TARGET_SERVER_URL);
-			
-			System.out.println(System.getProperty("user.dir"));
-
-//			DesiredCapabilities reportCap;
-//			reportCap = (DesiredCapabilities) driver;
-//			String reportkey = (String) browser.getCapability("reportKey");
-//			String executionId = (String) browser.getCapability("executionId");		
-//
-//			System.out.println(reportkey);
-//			System.out.println(executionId);
-
-			//driver.get("http://www.bostonglobe.com/");
-			System.out.println(SELENIUM_HUB_URL + " " + browser.getPlatform());
-			
-			driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-
-
-
-			//driver.findElement(By.xpath("//a[text()='Home Delivery']")).click();
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
-			
-			
-			driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
-
-			driver.findElement(By.xpath("//div[@name='cmdSubmit']")).click();
-
-			Thread.sleep(2000);
-			
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='rdSubscription1']")));
-
-			driver.findElement(By.xpath("//label[@for='rdSubscription1']")).click();
-
-			driver.findElement(By.xpath("//div[@id='continue_btn']")).click();
-
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-
-			
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
-			
-			driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
-
-			driver.findElement(By.xpath("//input[@id='txtDeliveryLastName']")).sendKeys("McCartney");
-
-			driver.findElement(By.xpath("//input[@id='txtDeliveryAddress1']")).sendKeys("28 Main St");
-
-			driver.findElement(By.xpath("//input[@id='txtDeliveryAddress2']")).sendKeys("Apt. 2");
-
-			driver.findElement(By.xpath("//input[@id='txtDeliveryAreaCode']")).sendKeys("781");
-
-			driver.findElement(By.xpath("//input[@id='txtDeliveryPhone3']")).sendKeys("847");
-
-			driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");		
-
-			driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");			
-
-
-
-		} finally {
-			if (driver != null) {
-				driver.close();
-				
-//				Capabilities capabilities = driver.getCapabilities();
-//				String executionId = (String) capabilities.getCapability("executionId");
-//				String reportKey = (String) capabilities.getCapability("reportKey");
-				
-				
-				driver.quit();
-			}
-		}
-
-	}
-
-	
-//	@DataProvider(parallel = true)
-//	  public Object[][] dp() {
-//	    return new Object[][] {
-//	      new Object[] { "Android", "Patrick", "Chrome" },
-//	      new Object[] { "iOS", "Patrick", "Safari" },
-//	    };
-//	  }
-//	
+	public WebDriver driver;
+	public WebDriverWait wait; 
 	
 	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@BeforeMethod
-	public void setUp() throws Exception {
-	}
-
-	@AfterMethod
-	public void tearDown() throws Exception {
-	}
+	
 
 	@Parameters({ "targetEnvironment" })
-	@Test
-	public void test(String targetEnvironment) throws MalformedURLException,
-	IOException, InterruptedException {
-
+	@BeforeTest
+	public void beforeTest(String targetEnvironment) throws UnsupportedEncodingException, MalformedURLException {
 		boolean device = false;
 		DesiredCapabilities capabilities = new DesiredCapabilities();
-
 
 		switch (targetEnvironment) {
 		case "Galaxy S5":
@@ -223,7 +104,8 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("version", "");
 			break;
 		}
-
+		
+		
 		TARGET_SERVER_URL = getConfigurationProperty("TARGET_SERVER_URL",
 				"test.target.server.url", "http://homedelivery.bostonglobe.com/");
 
@@ -247,9 +129,130 @@ public class TestHomeDeliverySignup {
 					"http://seleniumgrid.perfectomobilelab.net:4444/wd/hub"); 
 			
 		}
+		
+		
+		driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), capabilities);
 
-		signUp(capabilities);
+		//  test starts in Codes entity list page
+		driver.get(TARGET_SERVER_URL);
+		System.out.println(SELENIUM_HUB_URL + " " + capabilities.getPlatform());
+		
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+
+
+
+		//driver.findElement(By.xpath("//a[text()='Home Delivery']")).click();
+		wait = new WebDriverWait(driver, 20);
+	}
+
+    @Attachment
+    public byte[] makeScreenshot() {
+        System.out.println("Taking screenshot");
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+	
+	
+	@Test
+	public void openHomepage() {
+		System.out.println("### Opening homepage ###");
+		driver.get("http://homedelivery.bostonglobe.com/");
+	
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
+		makeScreenshot();	
+		
+	}	
+	
+	@Test(dependsOnMethods = { "openHomepage" })
+	public void enterZipCode() {
+		System.out.println("### Entering zipcode ###");
+		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
+
+		driver.findElement(By.xpath("//div[@name='cmdSubmit']")).click();
+		makeScreenshot();
+	}
+	
+	@Test (dependsOnMethods = { "enterZipCode" })
+	public void selectLength () {
+		System.out.println("### Selecting subscription length ###");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='rdSubscription1']")));
+
+		driver.findElement(By.xpath("//label[@for='rdSubscription1']")).click();
+
+		driver.findElement(By.xpath("//div[@id='continue_btn']")).click();
+		makeScreenshot();
+	}
+	
+	@Test(dependsOnMethods = { "selectLength" })
+	public void enterDetails() {
+		System.out.println("### Entering subscription details ###");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
+		driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
+		driver.findElement(By.xpath("//input[@id='txtDeliveryLastName']")).sendKeys("McCartney");
+		driver.findElement(By.xpath("//input[@id='txtDeliveryAddress1']")).sendKeys("28 Main St");
+		driver.findElement(By.xpath("//input[@id='txtDeliveryAddress2']")).sendKeys("Apt. 2");
+		driver.findElement(By.xpath("//input[@id='txtDeliveryAreaCode']")).sendKeys("781");
+		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone3']")).sendKeys("847");
+		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");		
+		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");			
+		makeScreenshot();
+	}
+	
+	@AfterTest 
+	public void testTearDown() throws Exception {
+		if (driver != null) {
+			driver.close();
+
+			
+			driver.quit();	
+		}
+		
+	}
+
+	
+	
+	
+	private static String getConfigurationProperty(String envKey,
+			String sysKey, String defValue) {
+		String retValue = defValue;
+		String envValue = System.getenv(envKey);
+		String sysValue = System.getProperty(sysKey);
+		// system property prevails over environment variable
+		if (sysValue != null) {
+			retValue = sysValue;
+		} else if (envValue != null) {
+			retValue = envValue;
+		}
+		return retValue;
+	}
+	
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
 
 	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
+	
+
+	
+
+	@BeforeMethod
+	public void setUp() throws Exception {
+	}
+
+	@AfterMethod
+	public void tearDown() throws Exception {
+	}
+
+
+	
+	
+
+	
+	
+	
 
 }

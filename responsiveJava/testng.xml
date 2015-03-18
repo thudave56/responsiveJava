@@ -7,17 +7,36 @@
 	<test name="Find Local Store - Galaxy S5">
 		<parameter name="targetEnvironment" value="Galaxy S5" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup" />
+			<class name="test.java.TestHomeDeliverySignup">
+			    <methods>
+			        <include name="openHomepage" />
+			        <include name="enterZipCode" />
+			        <include name="selectLength" />
+			        <include name="enterDetails" />
+			    </methods>
+			    
+			</class>
 		</classes>
 	</test>
+	
+	  
+	
 	<test name="Find Local Store - iPhone 6">
 		<parameter name="targetEnvironment" value="iPhone 6" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup" />
+			<class name="test.java.TestHomeDeliverySignup">
+			    <methods>
+			        <include name="openHomepage" />
+			        <include name="enterZipCode" />
+			        <include name="selectLength" />
+			        <include name="enterDetails" />
+			    </methods>
+			    
+			</class>
 		</classes>
 	</test>
 
-
+<!--
 
 
 	<test name="Find Local Store - IE 10">
@@ -54,5 +73,5 @@
 		</classes>
 	</test>
 
-
+-->
 </suite> 
