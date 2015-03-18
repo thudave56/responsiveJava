@@ -205,7 +205,7 @@ public class TestHomeDeliverySignup {
 		takeScreenshot();
 	}
 	
-	@Test
+	@Test(dependsOnMethods = { "enterDetails" })
 	public void testTearDown() throws Exception {
 		if (driver != null) {
 			driver.close();
