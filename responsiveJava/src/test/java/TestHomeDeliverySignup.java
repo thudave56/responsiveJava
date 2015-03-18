@@ -211,7 +211,7 @@ public class TestHomeDeliverySignup {
 			driver.close();
 			
 			if (device) {
-				downloadReport("pdf");
+				downloadReport("html");
 			}
 			
 			driver.quit();	
