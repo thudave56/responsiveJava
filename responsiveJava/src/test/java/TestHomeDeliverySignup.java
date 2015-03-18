@@ -26,13 +26,20 @@ import com.perfectomobile.httpclient.utils.FileUtils;
 
 import ru.yandex.qatools.allure.annotations.Attachment;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 //import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -40,16 +47,16 @@ public class TestHomeDeliverySignup {
 
 	public  String SELENIUM_HUB_URL;
 	public  String TARGET_SERVER_URL;
-	public WebDriver driver;
+	public  WebDriver driver;
 	public WebDriverWait wait; 
-	
+	public boolean device; 
 	
 	
 
 	@Parameters({ "targetEnvironment" })
 	@BeforeTest
 	public void beforeTest(String targetEnvironment) throws UnsupportedEncodingException, MalformedURLException {
-		boolean device = false;
+		
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 
 		switch (targetEnvironment) {
@@ -202,15 +209,37 @@ public class TestHomeDeliverySignup {
 	public void testTearDown() throws Exception {
 		if (driver != null) {
 			driver.close();
-
+			
+			if (device) {
+				downloadReport("pdf");
+			}
 			
 			driver.quit();	
 		}
 		
 	}
 
+	@Attachment
+	private byte[] downloadReport(String type) throws IOException
+	{
+		
+			
+		//DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-HHmmss");
+		//Calendar cal = Calendar.getInstance();
+		//String reportTime = dateFormat.format(cal.getTime());
+		
+		String command = "mobile:report:download";
+		Map<String, String> params = new HashMap<>();
+		params.put("type", type);
+		String report = (String)((RemoteWebDriver) driver).executeScript(command, params);
+		//File reportFile = new File(fileName + "-" + deviceID + "-" +reportTime + suffix);
+		//BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(reportFile));
+		byte[] reportBytes = OutputType.BYTES.convertFromBase64Png(report);
+			
+			
 	
-	
+		return reportBytes;
+	}
 	
 	private static String getConfigurationProperty(String envKey,
 			String sysKey, String defValue) {
