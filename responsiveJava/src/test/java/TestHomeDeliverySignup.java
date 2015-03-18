@@ -147,7 +147,7 @@ public class TestHomeDeliverySignup {
 	}
 
     @Attachment
-    public byte[] makeScreenshot() {
+    public byte[] takeScreenshot() {
         System.out.println("Taking screenshot");
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
@@ -159,7 +159,7 @@ public class TestHomeDeliverySignup {
 		driver.get("http://homedelivery.bostonglobe.com/");
 	
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
-		makeScreenshot();	
+		takeScreenshot();	
 		
 	}	
 	
@@ -169,7 +169,7 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
 
 		driver.findElement(By.xpath("//div[@name='cmdSubmit']")).click();
-		makeScreenshot();
+		takeScreenshot();
 	}
 	
 	@Test (dependsOnMethods = { "enterZipCode" })
@@ -180,7 +180,7 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//label[@for='rdSubscription1']")).click();
 
 		driver.findElement(By.xpath("//div[@id='continue_btn']")).click();
-		makeScreenshot();
+		takeScreenshot();
 	}
 	
 	@Test(dependsOnMethods = { "selectLength" })
@@ -195,7 +195,7 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone3']")).sendKeys("847");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");		
 		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");			
-		makeScreenshot();
+		takeScreenshot();
 	}
 	
 	@AfterTest 

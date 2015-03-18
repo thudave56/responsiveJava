@@ -36,13 +36,21 @@
 		</classes>
 	</test>
 
-<!--
+
 
 
 	<test name="Find Local Store - IE 10">
 		<parameter name="targetEnvironment" value="Internet Explorer 10" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup" />
+			<class name="test.java.TestHomeDeliverySignup">
+			    <methods>
+			        <include name="openHomepage" />
+			        <include name="enterZipCode" />
+			        <include name="selectLength" />
+			        <include name="enterDetails" />
+			    </methods>
+			    
+			</class>
 		</classes>
 	</test>
 
@@ -50,28 +58,60 @@
 	<test name="Find Local Store - FF 34">
 		<parameter name="targetEnvironment" value="Firefox 34" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup" />
+			<class name="test.java.TestHomeDeliverySignup">
+			    <methods>
+			        <include name="openHomepage" />
+			        <include name="enterZipCode" />
+			        <include name="selectLength" />
+			        <include name="enterDetails" />
+			    </methods>
+			    
+			</class>
 		</classes>
 	</test>
 	<test name="Find Local Store - FF 35">
 		<parameter name="targetEnvironment" value="Firefox 35" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup" />
+			<class name="test.java.TestHomeDeliverySignup">
+			    <methods>
+			        <include name="openHomepage" />
+			        <include name="enterZipCode" />
+			        <include name="selectLength" />
+			        <include name="enterDetails" />
+			    </methods>
+			    
+			</class>
 		</classes>
 	</test>
 	<test name="Find Local Store - Chrome">
 		<parameter name="targetEnvironment" value="Chrome" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup" />
+			<class name="test.java.TestHomeDeliverySignup">
+			    <methods>
+			        <include name="openHomepage" />
+			        <include name="enterZipCode" />
+			        <include name="selectLength" />
+			        <include name="enterDetails" />
+			    </methods>
+			    
+			</class>
 		</classes>
 	</test>
 
 	<test name="Find Local Store - IE 11">
 		<parameter name="targetEnvironment" value="Internet Explorer 11" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup" />
+			<class name="test.java.TestHomeDeliverySignup">
+			    <methods>
+			        <include name="openHomepage" />
+			        <include name="enterZipCode" />
+			        <include name="selectLength" />
+			        <include name="enterDetails" />
+			    </methods>
+			    
+			</class>
 		</classes>
 	</test>
 
--->
+
 </suite> 
