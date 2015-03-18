@@ -205,7 +205,7 @@ public class TestHomeDeliverySignup {
 		takeScreenshot();
 	}
 	
-	@AfterTest 
+	@Test
 	public void testTearDown() throws Exception {
 		if (driver != null) {
 			driver.close();

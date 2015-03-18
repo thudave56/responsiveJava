@@ -13,6 +13,7 @@
 			        <include name="enterZipCode" />
 			        <include name="selectLength" />
 			        <include name="enterDetails" />
+			        <include name="testTearDown" />
 			    </methods>
 			    
 			</class>
@@ -30,6 +31,7 @@
 			        <include name="enterZipCode" />
 			        <include name="selectLength" />
 			        <include name="enterDetails" />
+			         <include name="testTearDown" />
 			    </methods>
 			    
 			</class>
@@ -48,6 +50,7 @@
 			        <include name="enterZipCode" />
 			        <include name="selectLength" />
 			        <include name="enterDetails" />
+			         <include name="testTearDown" />
 			    </methods>
 			    
 			</class>
@@ -64,6 +67,7 @@
 			        <include name="enterZipCode" />
 			        <include name="selectLength" />
 			        <include name="enterDetails" />
+			         <include name="testTearDown" />
 			    </methods>
 			    
 			</class>
@@ -78,6 +82,7 @@
 			        <include name="enterZipCode" />
 			        <include name="selectLength" />
 			        <include name="enterDetails" />
+			         <include name="testTearDown" />
 			    </methods>
 			    
 			</class>
@@ -92,6 +97,7 @@
 			        <include name="enterZipCode" />
 			        <include name="selectLength" />
 			        <include name="enterDetails" />
+			         <include name="testTearDown" />
 			    </methods>
 			    
 			</class>
@@ -107,6 +113,7 @@
 			        <include name="enterZipCode" />
 			        <include name="selectLength" />
 			        <include name="enterDetails" />
+			         <include name="testTearDown" />
 			    </methods>
 			    
 			</class>
