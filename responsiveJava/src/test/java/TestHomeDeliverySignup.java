@@ -14,6 +14,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 //import java.io.UnsupportedEncodingException;
@@ -73,13 +75,17 @@ public class TestHomeDeliverySignup {
 
 
 			//driver.findElement(By.xpath("//a[text()='Home Delivery']")).click();
-
-
+			WebDriverWait wait = new WebDriverWait(driver, 20);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
+			
+			
 			driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
 
 			driver.findElement(By.xpath("//div[@name='cmdSubmit']")).click();
 
 			Thread.sleep(2000);
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='rdSubscription1']")));
 
 			driver.findElement(By.xpath("//label[@for='rdSubscription1']")).click();
 
@@ -92,6 +98,8 @@ public class TestHomeDeliverySignup {
 				e2.printStackTrace();
 			}
 
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
+			
 			driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
 
 			driver.findElement(By.xpath("//input[@id='txtDeliveryLastName']")).sendKeys("McCartney");
