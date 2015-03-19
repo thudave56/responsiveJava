@@ -48,14 +48,14 @@ public class TestHomeDeliverySignup {
 			device = true;
 			capabilities.setCapability("platformName", "Android");
 			capabilities.setCapability("description", "Patrick");
-			capabilities.setCapability("browser", "mobileChrome");
+			capabilities.setCapability("browserName", "mobileChrome");
 			break;
 
 		case "iPhone 6":
 			device = true;
 			capabilities.setCapability("platformName", "iOS");
 			capabilities.setCapability("description", "Patrick");
-			capabilities.setCapability("browser", "mobileSafari");
+			capabilities.setCapability("browserName", "mobileSafari");
 			break;
 
 		case "Internet Explorer 11":
