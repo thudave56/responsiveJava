@@ -16,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -232,11 +233,10 @@ public class TestHomeDeliverySignup {
 	@AfterTest
 	public void closeWebDriver () {
 		// make sure web driver is closed
-		try {
+		if ( ((RemoteWebDriver) driver).getSessionId() != null) {
 			driver.close();
 			driver.quit();
 		}
-		finally { }
 		
 	}
 	@BeforeClass
