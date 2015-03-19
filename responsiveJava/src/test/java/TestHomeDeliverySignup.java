@@ -2,42 +2,27 @@ package test.java;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeClass;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.perfectomobile.httpclient.utils.FileUtils;
-
 import ru.yandex.qatools.allure.annotations.Attachment;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-//import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -51,7 +36,6 @@ public class TestHomeDeliverySignup {
 	public WebDriverWait wait; 
 	public boolean device; 
 	
-	
 
 	@Parameters({ "targetEnvironment" })
 	@BeforeTest
@@ -64,7 +48,7 @@ public class TestHomeDeliverySignup {
 			device = true;
 			capabilities.setCapability("platformName", "Android");
 			capabilities.setCapability("description", "Patrick");
-			capabilities.setCapability("browser", "mobileOS");
+			capabilities.setCapability("browser", "mobileChrome");
 			break;
 
 		case "iPhone 6":
@@ -115,14 +99,17 @@ public class TestHomeDeliverySignup {
 		
 		TARGET_SERVER_URL = getConfigurationProperty("TARGET_SERVER_URL",
 				"test.target.server.url", "http://homedelivery.bostonglobe.com/");
+		
+		String user = System.getProperty("PerfectoUsername");
+		String password = System.getProperty("PerfectoPassword");
+		String host = System.getProperty("PerfectoCloud");
 
 		if (device) {
 
 			System.out.println(targetEnvironment + ": device");
-			String host = "demo.perfectomobile.com";
-			String user = URLEncoder.encode("patrickm@perfectomobile.com",
-					"UTF-8");
-			String password = URLEncoder.encode("perfecto", "UTF-8");
+			
+			user = URLEncoder.encode(user,"UTF-8");
+			password = URLEncoder.encode(password, "UTF-8");
 			URL gridURL = new URL("https://" + user + ':' + password + '@'
 					+ host + "/nexperience/wd/hub");
 
@@ -146,8 +133,6 @@ public class TestHomeDeliverySignup {
 		
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-
-
 
 		//driver.findElement(By.xpath("//a[text()='Home Delivery']")).click();
 		wait = new WebDriverWait(driver, 20);
@@ -210,34 +195,20 @@ public class TestHomeDeliverySignup {
 		if (driver != null) {
 			driver.close();
 			
-			if (device) {
-				downloadReport("html");
-			}
+			if (device) { downloadReport("html"); }
 			
 			driver.quit();	
 		}
-		
 	}
 
 	@Attachment
 	private byte[] downloadReport(String type) throws IOException
-	{
-		
-			
-		//DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-HHmmss");
-		//Calendar cal = Calendar.getInstance();
-		//String reportTime = dateFormat.format(cal.getTime());
-		
+	{	
 		String command = "mobile:report:download";
 		Map<String, String> params = new HashMap<>();
 		params.put("type", type);
 		String report = (String)((RemoteWebDriver) driver).executeScript(command, params);
-		//File reportFile = new File(fileName + "-" + deviceID + "-" +reportTime + suffix);
-		//BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(reportFile));
 		byte[] reportBytes = OutputType.BYTES.convertFromBase64Png(report);
-			
-			
-	
 		return reportBytes;
 	}
 	
@@ -266,8 +237,6 @@ public class TestHomeDeliverySignup {
 	}
 	
 
-	
-
 	@BeforeMethod
 	public void setUp() throws Exception {
 	}
@@ -275,13 +244,5 @@ public class TestHomeDeliverySignup {
 	@AfterMethod
 	public void tearDown() throws Exception {
 	}
-
-
-	
-	
-
-	
-	
-	
 
 }

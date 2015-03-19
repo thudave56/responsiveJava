@@ -17,13 +17,7 @@
 		<aspectj.version>1.8.5</aspectj.version>
 	</properties>
 
-<repositories>
-		<repository>
-			<id>perfectomobile</id>
-			<name>Perfecto mobile</name>
-			<url>http://repository-perfectomobile.forge.cloudbees.com/public</url>
-		</repository>
-	</repositories>
+
 
 
 	<dependencies>
@@ -53,16 +47,8 @@
 			<version>6.8.21</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.perfectomobile</groupId>
-			<artifactId>http-client</artifactId>
-			<version>3.9.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>ru.yandex.qatools.ashot</groupId>
-			<artifactId>ashot</artifactId>
-			<version>1.4.5</version>
-		</dependency>
+
+
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
