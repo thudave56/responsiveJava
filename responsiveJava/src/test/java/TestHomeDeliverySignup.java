@@ -2,6 +2,7 @@ package test.java;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -17,7 +18,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import ru.yandex.qatools.allure.annotations.Attachment;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -226,7 +229,16 @@ public class TestHomeDeliverySignup {
 		return retValue;
 	}
 	
-
+	@AfterTest
+	public void closeWebDriver () {
+		// make sure web driver is closed
+		try {
+			driver.close();
+			driver.quit();
+		}
+		finally { }
+		
+	}
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
