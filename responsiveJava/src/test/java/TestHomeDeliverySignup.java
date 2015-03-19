@@ -17,6 +17,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
+import org.openqa.selenium.remote.SessionNotFoundException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -231,14 +232,18 @@ public class TestHomeDeliverySignup {
 	}
 	
 	@AfterTest
-	public void closeWebDriver () {
+	public void closeWebDriver () throws SessionNotFoundException {
 		// make sure web driver is closed
-		if ( ((RemoteWebDriver) driver).getSessionId() != null) {
-			driver.close();
-			driver.quit();
+		try{
+			if ( ((RemoteWebDriver) driver).getSessionId() != null) {
+				driver.close();
+				driver.quit();
+			}	
 		}
-		
+		catch (SessionNotFoundException e) {}
+			
 	}
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
