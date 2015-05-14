@@ -158,7 +158,7 @@ public class TestHomeDeliverySignup {
     	if(device && rotate) {
     		String command = "mobile:handset:rotate";
     		Map<String, Object> params = new HashMap<>();
-    		params.put("operation", "Next");
+  //  		params.put("operation", "Next");
     		params.put("state", "Landscape");
     		Object result = ((RemoteWebDriver) driver).executeScript(command, params);
     	}
