@@ -169,6 +169,7 @@ public class TestHomeDeliverySignup {
     	}
 	
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
+				
 		takeScreenshot();	
 		
 	}	
