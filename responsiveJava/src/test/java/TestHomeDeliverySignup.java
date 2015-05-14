@@ -40,6 +40,7 @@ public class TestHomeDeliverySignup {
 	public  WebDriver driver;
 	public WebDriverWait wait; 
 	public boolean device; 
+	public boolean rotate; 
 	
 
 	@Parameters({ "targetEnvironment" })
@@ -51,6 +52,7 @@ public class TestHomeDeliverySignup {
 		switch (targetEnvironment) {
 		case "Galaxy S5":
 			device = true;
+			rotate = false;
 			capabilities.setCapability("platformName", "Android");
 			capabilities.setCapability("description", "Patrick");
 			capabilities.setCapability("browserName", "mobileChrome");
@@ -58,6 +60,7 @@ public class TestHomeDeliverySignup {
 
 		case "iPhone 6":
 			device = true;
+			rotate = true; 
 			capabilities.setCapability("platformName", "iOS");
 			capabilities.setCapability("description", "Patrick");
 			capabilities.setCapability("browserName", "mobileSafari");
@@ -109,6 +112,7 @@ public class TestHomeDeliverySignup {
 		String password = System.getProperty("PerfectoPassword");
 		String host = System.getProperty("PerfectoCloud");
 
+
 		if (device) {
 
 			System.out.println(targetEnvironment + ": device");
@@ -149,7 +153,19 @@ public class TestHomeDeliverySignup {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 	
-	
+    @BeforeTest
+    public void rotateDevice() {
+    	if(device && rotate) {
+    		String command = "mobile:handset:rotate";
+    		Map<String, Object> params = new HashMap<>();
+    		params.put("operation", "Next");
+    		params.put("state", "Landscape");
+    		Object result = ((RemoteWebDriver) driver).executeScript(command, params);
+    	}
+    	
+    	
+    }
+    
 	@Test
 	public void openHomepage() {
 		System.out.println("### Opening homepage ###");
