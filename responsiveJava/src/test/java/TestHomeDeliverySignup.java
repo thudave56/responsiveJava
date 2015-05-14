@@ -153,23 +153,20 @@ public class TestHomeDeliverySignup {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 	
-    @BeforeTest
-    public void rotateDevice() {
-    	if(device && rotate) {
-    		String command = "mobile:handset:rotate";
-    		Map<String, Object> params = new HashMap<>();
-  //  		params.put("operation", "Next");
-    		params.put("state", "Landscape");
-    		Object result = ((RemoteWebDriver) driver).executeScript(command, params);
-    	}
-    	
-    	
-    }
+
     
 	@Test
 	public void openHomepage() {
 		System.out.println("### Opening homepage ###");
 		driver.get("http://homedelivery.bostonglobe.com/");
+		
+    	if(device && rotate) {
+    		String command = "mobile:handset:rotate";
+    		Map<String, Object> params = new HashMap<>();
+    		params.put("operation", "Next");
+   // 		params.put("state", "Landscape");
+    		Object result = ((RemoteWebDriver) driver).executeScript(command, params);
+    	}
 	
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
 		takeScreenshot();	
