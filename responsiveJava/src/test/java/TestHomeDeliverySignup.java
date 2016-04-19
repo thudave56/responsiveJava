@@ -103,9 +103,12 @@ public class TestHomeDeliverySignup {
 
 		case "Chrome":
 			device = false;
-			capabilities.setCapability("platform", Platform.ANY);
-			capabilities.setCapability("browserName", "chrome");
-			capabilities.setCapability("version", "");
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "7");
+			capabilities.setCapability("browserName", "Chrome");
+			capabilities.setCapability("browserVersion", "48");
+			capabilities.setCapability("resolution", "1440x900");
+			capabilities.setCapability("location", "US East");
 			break;
 		}
 		
