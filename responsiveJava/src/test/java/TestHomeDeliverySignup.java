@@ -230,8 +230,8 @@ public class TestHomeDeliverySignup {
 		if (driver != null) {
 			driver.close();
 			
-			if (device) { downloadReport("html"); 
-			}
+			downloadReport("html"); 
+			
 			
 			driver.quit();	
 		}
