@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
@@ -60,7 +61,7 @@ public class TestHomeDeliverySignup {
 
 		case "iPhone 6":
 			device = true;
-			rotate = true; 
+			rotate = false; 
 			capabilities.setCapability("platformName", "iOS");
 			capabilities.setCapability("description", "Patrick");
 			capabilities.setCapability("browserName", "mobileSafari");
@@ -68,11 +69,12 @@ public class TestHomeDeliverySignup {
 
 		case "Internet Explorer 11":
 			device = false;
-			DesiredCapabilities.internetExplorer();
-			capabilities.setCapability("platform", Platform.ANY);
-			capabilities.setCapability("browserName", "internet explorer");
-			capabilities.setCapability("version", "11");
-			capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true); 
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "8.1");
+			capabilities.setCapability("browserName", "Internet Explorer");
+			capabilities.setCapability("browserVersion", "11");
+			capabilities.setCapability("resolution", "1366x768");
+			capabilities.setCapability("location", "US East");
 			break;
 
 		case "Internet Explorer 10":
@@ -82,11 +84,14 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("version", "10");
 			break;	
 
-		case "Firefox 34":
+		case "Firefox 43":
 			device = false;
-			capabilities.setCapability("platform", Platform.ANY);
-			capabilities.setCapability("browserName", "firefox");
-			capabilities.setCapability("version", "34.0");
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "8.1");
+			capabilities.setCapability("browserName", "Firefox");
+			capabilities.setCapability("browserVersion", "43");
+			capabilities.setCapability("resolution", "1366x768");
+			capabilities.setCapability("location", "US East");
 			break;
 
 		case "Firefox 35":
@@ -106,14 +111,14 @@ public class TestHomeDeliverySignup {
 		
 		
 		TARGET_SERVER_URL = getConfigurationProperty("TARGET_SERVER_URL",
-				"test.target.server.url", "http://homedelivery.bostonglobe.com/");
+				"test.target.server.url", "http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
 		
 		String user = System.getProperty("PerfectoUsername");
 		String password = System.getProperty("PerfectoPassword");
 		String host = System.getProperty("PerfectoCloud");
 
 
-		if (device) {
+		//if (device) {
 
 			System.out.println(targetEnvironment + ": device");
 			
@@ -125,13 +130,13 @@ public class TestHomeDeliverySignup {
 			SELENIUM_HUB_URL = getConfigurationProperty("SELENIUM_HUB_URL",
 					"test.selenium.hub.url", gridURL.toString());
 
-		} else {
-			System.out.println(targetEnvironment + ": desktop");;
-			SELENIUM_HUB_URL = getConfigurationProperty("SELENIUM_HUB_URL",
-					"test.selenium.hub.url",
-					"http://seleniumgrid.perfectomobilelab.net:4444/wd/hub"); 
+		//} else {
+		//	System.out.println(targetEnvironment + ": desktop");;
+		//	SELENIUM_HUB_URL = getConfigurationProperty("SELENIUM_HUB_URL",
+		//			"test.selenium.hub.url",
+		//			"http://seleniumgrid.perfectomobilelab.net:4444/wd/hub"); 
 			
-		}
+		//}
 		
 		
 		driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), capabilities);
@@ -140,7 +145,7 @@ public class TestHomeDeliverySignup {
 		driver.get(TARGET_SERVER_URL);
 		System.out.println(SELENIUM_HUB_URL + " " + capabilities.getPlatform());
 		
-		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
 		//driver.findElement(By.xpath("//a[text()='Home Delivery']")).click();
@@ -158,7 +163,7 @@ public class TestHomeDeliverySignup {
 	@Test
 	public void openHomepage() {
 		System.out.println("### Opening homepage ###");
-		driver.get("http://homedelivery.bostonglobe.com/");
+		driver.get("http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
 		
     	if(device && rotate) {
     		String command = "mobile:handset:rotate";
@@ -168,6 +173,9 @@ public class TestHomeDeliverySignup {
     		Object result = ((RemoteWebDriver) driver).executeScript(command, params);
     	}
 	
+    	if(!device) {
+    		driver.manage().window().maximize();
+    	}
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
 				
 		takeScreenshot();	
@@ -177,20 +185,25 @@ public class TestHomeDeliverySignup {
 	@Test(dependsOnMethods = { "openHomepage" })
 	public void enterZipCode() {
 		System.out.println("### Entering zipcode ###");
+		driver.findElement(By.xpath("//input[@name='txtZip']")).clear();
 		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
 
-		driver.findElement(By.xpath("//div[@name='cmdSubmit']")).click();
+		driver.findElement(By.xpath("//input[@id='cmdSubmit']")).click();
 		takeScreenshot();
 	}
 	
 	@Test (dependsOnMethods = { "enterZipCode" })
 	public void selectLength () {
 		System.out.println("### Selecting subscription length ###");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='rdSubscription1']")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[1]/strong[1])[1]")));
 
-		driver.findElement(By.xpath("//label[@for='rdSubscription1']")).click();
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("$('input:radio[name=rdSubscription][value=4]').trigger('click');");
+		
+		
+		//driver.findElement(By.xpath("(//label[1]/strong[1])[1]")).click();
 
-		driver.findElement(By.xpath("//div[@id='continue_btn']")).click();
+		driver.findElement(By.xpath("//input[@id='continue_btn']")).click();
 		takeScreenshot();
 	}
 	
@@ -214,7 +227,8 @@ public class TestHomeDeliverySignup {
 		if (driver != null) {
 			driver.close();
 			
-			if (device) { downloadReport("html"); }
+			if (device) { downloadReport("html"); 
+			}
 			
 			driver.quit();	
 		}
@@ -228,6 +242,7 @@ public class TestHomeDeliverySignup {
 		params.put("type", type);
 		String report = (String)((RemoteWebDriver) driver).executeScript(command, params);
 		byte[] reportBytes = OutputType.BYTES.convertFromBase64Png(report);
+		downloadWTReport();
 		return reportBytes;
 	}
 	
@@ -243,6 +258,15 @@ public class TestHomeDeliverySignup {
 			retValue = envValue;
 		}
 		return retValue;
+	}
+	
+	@Attachment 
+	protected byte[] downloadWTReport() {
+		String reportUrl = (String)((RemoteWebDriver) driver).getCapabilities().getCapability("windTunnelReportUrl");
+		String returnString = "<html><head><META http-equiv=\"refresh\" content=\"0;URL=";
+		returnString = returnString + reportUrl + "\"></head><body /></html>";
+
+		return returnString.getBytes();
 	}
 	
 	@AfterTest

@@ -37,7 +37,7 @@
 			</class>
 		</classes>
 	</test>
- 
+ <!--  
 
 	<test name="Sign up for home delivery - IE 10">
 		<parameter name="targetEnvironment" value="Internet Explorer 10" />
@@ -101,9 +101,9 @@
 			</class>
 		</classes>
 	</test>
-
-	<test name="Sign up for home delivery - IE 11">
-		<parameter name="targetEnvironment" value="Internet Explorer 11" />
+-->
+	<test name="Sign up for home delivery - Firefox 43">
+		<parameter name="targetEnvironment" value="Firefox 43" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup">
 			    <methods>
