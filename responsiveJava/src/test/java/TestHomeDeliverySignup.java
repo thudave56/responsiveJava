@@ -191,9 +191,9 @@ public class TestHomeDeliverySignup {
     	//	Object result = ((RemoteWebDriver) driver).executeScript(command, params);
     	//}
 	
-    	//if(!device) {
-    	//	driver.manage().window().maximize();
-    	//}
+    	if(!device) {
+    		driver.manage().window().maximize();
+    	}
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
 				
 		takeScreenshot();	
