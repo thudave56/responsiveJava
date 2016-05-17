@@ -51,7 +51,7 @@ public class TestHomeDeliverySignup {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 
 		switch (targetEnvironment) {
-		case "Galaxy S5":
+		case "Galaxy S6":
 			device = true;
 			rotate = false;
 			capabilities.setCapability("platformName", "Android");
@@ -94,20 +94,23 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("location", "US East");
 			break;
 
-		case "Firefox 35":
-			device = false;
-			capabilities.setCapability("platform", Platform.ANY);
-			capabilities.setCapability("browserName", "firefox");
-			capabilities.setCapability("version", "35.0");
-			break;
-
-		case "Chrome":
+		case "Firefox 46":
 			device = false;
 			capabilities.setCapability("platformName", "Windows");
-			capabilities.setCapability("platformVersion", "7");
+			capabilities.setCapability("platformVersion", "8.1");
+			capabilities.setCapability("browserName", "Firefox");
+			capabilities.setCapability("browserVersion", "46");
+			capabilities.setCapability("resolution", "1366x768");
+			capabilities.setCapability("location", "US East");
+			break;
+
+		case "Chrome 48":
+			device = false;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "XP");
 			capabilities.setCapability("browserName", "Chrome");
-			capabilities.setCapability("browserVersion", "48");
-			capabilities.setCapability("resolution", "1440x900");
+			capabilities.setCapability("browserVersion", "49");
+			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
 			break;
 		}
@@ -161,31 +164,42 @@ public class TestHomeDeliverySignup {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 	
-
+    @Test 
+    public void BostonGlobeTest() {
+    	openHomepage();
+    	enterZipCode();
+    	selectLength();
+    	enterDetails();
+    	try {
+			testTearDown();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
-	@Test
+
 	public void openHomepage() {
 		System.out.println("### Opening homepage ###");
 		driver.get("http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
 		
-    	if(device && rotate) {
-    		String command = "mobile:handset:rotate";
-    		Map<String, Object> params = new HashMap<>();
-    		params.put("operation", "Next");
+    	//if(device && rotate) {
+    	//	String command = "mobile:handset:rotate";
+    	//	Map<String, Object> params = new HashMap<>();
+    	//	params.put("operation", "Next");
    // 		params.put("state", "Landscape");
-    		Object result = ((RemoteWebDriver) driver).executeScript(command, params);
-    	}
+    	//	Object result = ((RemoteWebDriver) driver).executeScript(command, params);
+    	//}
 	
-    	if(!device) {
-    		driver.manage().window().maximize();
-    	}
+    	//if(!device) {
+    	//	driver.manage().window().maximize();
+    	//}
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
 				
 		takeScreenshot();	
 		
 	}	
 	
-	@Test(dependsOnMethods = { "openHomepage" })
 	public void enterZipCode() {
 		System.out.println("### Entering zipcode ###");
 		driver.findElement(By.xpath("//input[@name='txtZip']")).clear();
@@ -195,7 +209,6 @@ public class TestHomeDeliverySignup {
 		takeScreenshot();
 	}
 	
-	@Test (dependsOnMethods = { "enterZipCode" })
 	public void selectLength () {
 		System.out.println("### Selecting subscription length ###");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[1]/strong[1])[1]")));
@@ -210,7 +223,6 @@ public class TestHomeDeliverySignup {
 		takeScreenshot();
 	}
 	
-	@Test(dependsOnMethods = { "selectLength" })
 	public void enterDetails() {
 		System.out.println("### Entering subscription details ###");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
@@ -225,16 +237,20 @@ public class TestHomeDeliverySignup {
 		takeScreenshot();
 	}
 	
-	@Test(dependsOnMethods = { "enterDetails" })
 	public void testTearDown() throws Exception {
-		if (driver != null) {
+		try{
+			if (driver != null) {
+		
 			driver.close();
-			
+			Map<String, Object> params = new HashMap<>(); 
+            ((JavascriptExecutor) driver).executeScript("mobile:execution:close", params);
+
 			downloadReport("html"); 
 			
 			
 			driver.quit();	
-		}
+			}
+		} catch (Exception e){}
 	}
 
 	@Attachment

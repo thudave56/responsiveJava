@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite thread-count="10" name="Java Responsive Web" parallel="tests">
+ 
 
 
-
-	<test name="Sign up for home delivery - Galaxy S5">
-		<parameter name="targetEnvironment" value="Galaxy S5" />
+	<test name="Sign up for home delivery - Galaxy S6">
+		<parameter name="targetEnvironment" value="Galaxy S6" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup">
-			    <methods>
-			        <include name="openHomepage" />
-			        <include name="enterZipCode" />
-			        <include name="selectLength" />
-			        <include name="enterDetails" />
-			        <include name="testTearDown" />
-			    </methods>
-			    
+
+			 
 			</class>
 		</classes>
 	</test>
@@ -26,99 +20,54 @@
 		<parameter name="targetEnvironment" value="iPhone 6" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup">
-			    <methods>
-			        <include name="openHomepage" />
-			        <include name="enterZipCode" />
-			        <include name="selectLength" />
-			        <include name="enterDetails" />
-			         <include name="testTearDown" />
-			    </methods>
+
 			    
 			</class>
 		</classes>
 	</test>
- <!--  
+  
 
 	
 
 
-	<test name="Sign up for home delivery - FF 34">
-		<parameter name="targetEnvironment" value="Firefox 34" />
-		<classes>
-			<class name="test.java.TestHomeDeliverySignup">
-			    <methods>
-			        <include name="openHomepage" />
-			        <include name="enterZipCode" />
-			        <include name="selectLength" />
-			        <include name="enterDetails" />
-			         <include name="testTearDown" />
-			    </methods>
-			    
-			</class>
-		</classes>
-	</test>
-	<test name="Sign up for home delivery - FF 35">
-		<parameter name="targetEnvironment" value="Firefox 35" />
-		<classes>
-			<class name="test.java.TestHomeDeliverySignup">
-			    <methods>
-			        <include name="openHomepage" />
-			        <include name="enterZipCode" />
-			        <include name="selectLength" />
-			        <include name="enterDetails" />
-			         <include name="testTearDown" />
-			    </methods>
-			    
-			</class>
-		</classes>
-	</test>
-
--->
-	<test name="Sign up for home delivery - Firefox 43">
+	<test name="Sign up for home delivery - FF 43">
 		<parameter name="targetEnvironment" value="Firefox 43" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup">
-			    <methods>
-			        <include name="openHomepage" />
-			        <include name="enterZipCode" />
-			        <include name="selectLength" />
-			        <include name="enterDetails" />
-			         <include name="testTearDown" />
-			    </methods>
+
 			    
 			</class>
 		</classes>
 	</test>
+	<test name="Sign up for home delivery - FF 46">
+		<parameter name="targetEnvironment" value="Firefox 46" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup">
+
+			    
+			</class>
+		</classes>
+	</test>
+<!-- - x
+
 	<test name="Sign up for home delivery - IE 11">
 		<parameter name="targetEnvironment" value="Internet Explorer 11" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup">
-			    <methods>
-			        <include name="openHomepage" />
-			        <include name="enterZipCode" />
-			        <include name="selectLength" />
-			        <include name="enterDetails" />
-			         <include name="testTearDown" />
-			    </methods>
+
+			    
+			</class>
+		</classes>
+	</test>
+	-->
+		<test name="Sign up for home delivery - Chrome 48">
+		<parameter name="targetEnvironment" value="Chrome 48" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup">
+
 			    
 			</class>
 		</classes>
 	</test>
 	
-		<test name="Sign up for home delivery - Chrome">
-		<parameter name="targetEnvironment" value="Chrome" />
-		<classes>
-			<class name="test.java.TestHomeDeliverySignup">
-			    <methods>
-			        <include name="openHomepage" />
-			        <include name="enterZipCode" />
-			        <include name="selectLength" />
-			        <include name="enterDetails" />
-			         <include name="testTearDown" />
-			    </methods>
-			    
-			</class>
-		</classes>
-	</test>
-
 </suite> 
