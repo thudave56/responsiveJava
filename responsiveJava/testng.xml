@@ -1,73 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite thread-count="10" name="Java Responsive Web" parallel="tests">
- 
-
 
 	<test name="Sign up for home delivery - Galaxy S6">
 		<parameter name="targetEnvironment" value="Galaxy S6" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup">
-
-			 
-			</class>
+			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-	
-	  
-	
+
 	<test name="Sign up for home delivery - iPhone 6">
 		<parameter name="targetEnvironment" value="iPhone 6" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup">
-
-			    
-			</class>
+			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-  
-
-	
-
 
 	<test name="Sign up for home delivery - FF 43">
 		<parameter name="targetEnvironment" value="Firefox 43" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup">
-
-			    
-			</class>
+			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
 	<test name="Sign up for home delivery - FF 46">
 		<parameter name="targetEnvironment" value="Firefox 46" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup">
-
-			    
-			</class>
+			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-<!-- - x
 
-	<test name="Sign up for home delivery - IE 11">
-		<parameter name="targetEnvironment" value="Internet Explorer 11" />
-		<classes>
-			<class name="test.java.TestHomeDeliverySignup">
-
-			    
-			</class>
-		</classes>
-	</test>
-	-->
-		<test name="Sign up for home delivery - Chrome 48">
+	<test name="Sign up for home delivery - Chrome 48">
 		<parameter name="targetEnvironment" value="Chrome 48" />
 		<classes>
-			<class name="test.java.TestHomeDeliverySignup">
-
-			    
-			</class>
+			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-	
+
 </suite> 

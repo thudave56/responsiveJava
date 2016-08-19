@@ -1,69 +1,62 @@
 package test.java;
 
+import org.testng.ITestContext;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.perfecto.reportium.client.ReportiumClient;
+import com.perfecto.reportium.client.ReportiumClientFactory;
+import com.perfecto.reportium.exception.ReportiumException;
+import com.perfecto.reportium.model.PerfectoExecutionContext;
+import com.perfecto.reportium.model.Project;
+import com.perfecto.reportium.test.TestContext;
+import com.perfecto.reportium.test.result.TestResultFactory;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-import org.openqa.selenium.remote.SessionNotFoundException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import ru.yandex.qatools.allure.annotations.Attachment;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-
 public class TestHomeDeliverySignup {
 
-	public  String SELENIUM_HUB_URL;
-	public  String TARGET_SERVER_URL;
-	public  WebDriver driver;
-	public WebDriverWait wait; 
-	public boolean device; 
-	public boolean rotate; 
-	
+	public String SELENIUM_HUB_URL;
+	public String TARGET_SERVER_URL;
+	public RemoteWebDriver driver;
+	public WebDriverWait wait;
+	public boolean device;
+	ReportiumClient reportiumClient;
+	String OS;
 
-	@Parameters({ "targetEnvironment" })
-	@BeforeTest
-	public void beforeTest(String targetEnvironment) throws UnsupportedEncodingException, MalformedURLException {
-		
+	public RemoteWebDriver createDriver(String targetEnvironment) throws MalformedURLException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
+		//capabilities.setCapability("openDeviceTimeout", 5);
 
 		switch (targetEnvironment) {
 		case "Galaxy S6":
 			device = true;
-			rotate = false;
 			capabilities.setCapability("platformName", "Android");
-			capabilities.setCapability("description", "Patrick");
+			capabilities.setCapability("deviceName", "05157DF532C1D40F");
 			capabilities.setCapability("browserName", "mobileChrome");
 			break;
 
 		case "iPhone 6":
 			device = true;
-			rotate = false; 
 			capabilities.setCapability("platformName", "iOS");
-			capabilities.setCapability("description", "Patrick");
+			capabilities.setCapability("deviceName", "030FB4BA028AFB24D4800B3715516A680E022C5D");
 			capabilities.setCapability("browserName", "mobileSafari");
 			break;
 
@@ -76,13 +69,6 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
 			break;
-
-		case "Internet Explorer 10":
-			device = false;
-			capabilities.setCapability("platform", Platform.ANY);
-			capabilities.setCapability("browserName", "internet explorer");
-			capabilities.setCapability("version", "10");
-			break;	
 
 		case "Firefox 43":
 			device = false;
@@ -114,209 +100,144 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("location", "US East");
 			break;
 		}
-		
-		
-		TARGET_SERVER_URL = getConfigurationProperty("TARGET_SERVER_URL",
-				"test.target.server.url", "http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
-		
-		String user = System.getProperty("PerfectoUsername");
-		String password = System.getProperty("PerfectoPassword");
-		String host = System.getProperty("PerfectoCloud");
 
+		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
+		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));
+		capabilities.setCapability("newCommandTimeout", "120");
+		if (device) { capabilities.setCapability("windTunnelPersona", "Georgia"); }
+		capabilities.setCapability("scriptName", "Boston Globe");
 
-		//if (device) {
+		driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub"),
+				capabilities);
 
-			System.out.println(targetEnvironment + ": device");
-			
-			user = URLEncoder.encode(user,"UTF-8");
-			password = URLEncoder.encode(password, "UTF-8");
-			URL gridURL = new URL("https://" + user + ':' + password + '@'
-					+ host + "/nexperience/wd/hub");
-
-			SELENIUM_HUB_URL = getConfigurationProperty("SELENIUM_HUB_URL",
-					"test.selenium.hub.url", gridURL.toString());
-
-		//} else {
-		//	System.out.println(targetEnvironment + ": desktop");;
-		//	SELENIUM_HUB_URL = getConfigurationProperty("SELENIUM_HUB_URL",
-		//			"test.selenium.hub.url",
-		//			"http://seleniumgrid.perfectomobilelab.net:4444/wd/hub"); 
-			
-		//}
-		
-		
-		driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), capabilities);
-
-		//  test starts in Codes entity list page
-		driver.get(TARGET_SERVER_URL);
-		System.out.println(SELENIUM_HUB_URL + " " + capabilities.getPlatform());
-		
+		OS = capabilities.getCapability("platformName").toString();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
 
-		//driver.findElement(By.xpath("//a[text()='Home Delivery']")).click();
-		wait = new WebDriverWait(driver, 20);
+		return driver;
 	}
 
-    @Attachment
-    public byte[] takeScreenshot() {
-        System.out.println("Taking screenshot");
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-    }
-	
-    @Test 
-    public void BostonGlobeTest() {
-    	openHomepage();
-    	enterZipCode();
-    	selectLength();
-    	enterDetails();
-    	try {
-			testTearDown();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
-    
+	@Attachment
+	public byte[] takeScreenshot() {
+		System.out.println("Taking screenshot");
+		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+	}
+
+	@Test
+	public void BostonGlobeTest() {
+		openHomepage();
+		enterZipCode();
+		selectLength();
+		enterDetails();
+	}
 
 	public void openHomepage() {
 		System.out.println("### Opening homepage ###");
-		driver.get("http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
-		
-    	//if(device && rotate) {
-    	//	String command = "mobile:handset:rotate";
-    	//	Map<String, Object> params = new HashMap<>();
-    	//	params.put("operation", "Next");
-   // 		params.put("state", "Landscape");
-    	//	Object result = ((RemoteWebDriver) driver).executeScript(command, params);
-    	//}
-	
-    	if(!device) {
-    		driver.manage().window().maximize();
-    	}
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
-				
-		takeScreenshot();	
-		
-	}	
-	
+		driver.get(
+				"http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
+		takeScreenshot();
+
+	}
+
 	public void enterZipCode() {
 		System.out.println("### Entering zipcode ###");
 		driver.findElement(By.xpath("//input[@name='txtZip']")).clear();
 		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
-
 		driver.findElement(By.xpath("//input[@id='cmdSubmit']")).click();
 		takeScreenshot();
 	}
-	
-	public void selectLength () {
+
+	public void selectLength() {
 		System.out.println("### Selecting subscription length ###");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[1]/strong[1])[1]")));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[1]/strong[1])[1]")));
 
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("$('input:radio[name=rdSubscription][value=4]').trigger('click');");
-		
-		
-		//driver.findElement(By.xpath("(//label[1]/strong[1])[1]")).click();
-
 		driver.findElement(By.xpath("//input[@id='continue_btn']")).click();
 		takeScreenshot();
 	}
-	
+
 	public void enterDetails() {
 		System.out.println("### Entering subscription details ###");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
 		driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryLastName']")).sendKeys("McCartney");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryAddress1']")).sendKeys("28 Main St");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryAddress2']")).sendKeys("Apt. 2");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryAreaCode']")).sendKeys("781");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone3']")).sendKeys("847");
-		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");		
-		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");			
+		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");
+		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");
 		takeScreenshot();
 	}
-	
-	public void testTearDown() throws Exception {
-		try{
-			if (driver != null) {
-		
-			driver.close();
-			Map<String, Object> params = new HashMap<>(); 
-            ((JavascriptExecutor) driver).executeScript("mobile:execution:close", params);
 
-			downloadReport("html"); 
-			
-			
-			driver.quit();	
-			}
-		} catch (Exception e){}
+	@BeforeClass(alwaysRun = true)
+	public void baseBeforeClass(ITestContext context) throws MalformedURLException {
+		Map<String, String> params = context.getCurrentXmlTest().getAllParameters();
+
+		driver = createDriver(params.get("targetEnvironment"));
+		reportiumClient = getReportiumClient(driver);
 	}
 
-	@Attachment
-	private byte[] downloadReport(String type) throws IOException
-	{	
-		String command = "mobile:report:download";
-		Map<String, String> params = new HashMap<>();
-		params.put("type", type);
-		String report = (String)((RemoteWebDriver) driver).executeScript(command, params);
-		byte[] reportBytes = OutputType.BYTES.convertFromBase64Png(report);
-		downloadWTReport();
-		return reportBytes;
-	}
-	
-	private static String getConfigurationProperty(String envKey,
-			String sysKey, String defValue) {
-		String retValue = defValue;
-		String envValue = System.getenv(envKey);
-		String sysValue = System.getProperty(sysKey);
-		// system property prevails over environment variable
-		if (sysValue != null) {
-			retValue = sysValue;
-		} else if (envValue != null) {
-			retValue = envValue;
+	@AfterClass(alwaysRun = true)
+	public void baseAfterClass() {
+		System.out.println("Report url = " + reportiumClient.getReportUrl());
+		if (driver != null) {
+			driver.quit();
 		}
-		return retValue;
 	}
-	
-	@Attachment 
-	protected byte[] downloadWTReport() {
-		String reportUrl = (String)((RemoteWebDriver) driver).getCapabilities().getCapability("windTunnelReportUrl");
-		String returnString = "<html><head><META http-equiv=\"refresh\" content=\"0;URL=";
-		returnString = returnString + reportUrl + "\"></head><body /></html>";
 
-		return returnString.getBytes();
+	@BeforeMethod(alwaysRun = true)
+	public void beforeTest(Method method) {
+		String testName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
+		reportiumClient.testStart(testName, new TestContext());
 	}
-	
-	@AfterTest
-	public void closeWebDriver () throws SessionNotFoundException {
-		// make sure web driver is closed
-		try{
-			if ( ((RemoteWebDriver) driver).getSessionId() != null) {
-				driver.close();
-				driver.quit();
-			}	
+
+	@AfterMethod(alwaysRun = true)
+	public void afterTest(ITestResult testResult) {
+		int status = testResult.getStatus();
+		switch (status) {
+		case ITestResult.FAILURE:
+			reportiumClient.testStop(TestResultFactory.createFailure("An error occurred", testResult.getThrowable()));
+			break;
+		case ITestResult.SUCCESS_PERCENTAGE_FAILURE:
+		case ITestResult.SUCCESS:
+			reportiumClient.testStop(TestResultFactory.createSuccess());
+			break;
+		case ITestResult.SKIP:
+			// Ignore
+			break;
+		default:
+			throw new ReportiumException("Unexpected status " + status);
 		}
-		catch (SessionNotFoundException e) {}
-			
-	}
-	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-
 	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-	
+	protected static ReportiumClient getReportiumClient(RemoteWebDriver driver) {
+		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
+				.withProject(new Project("WebMD Web", "1.0")) // Optional
+				.withContextTags("Regression", "SampleTag1", "SampleTag2") // Optional
+				.withWebDriver(driver).build();
 
-	@BeforeMethod
-	public void setUp() throws Exception {
+		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
 	}
 
-	@AfterMethod
-	public void tearDown() throws Exception {
+	protected static ReportiumClient getReportiumClient(IOSDriver driver) {
+		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
+				.withProject(new Project("WebMD Native", "1.0")) // Optional
+				.withContextTags("Regression", "SampleTag1", "SampleTag2") // Optional
+				.withWebDriver(driver).build();
+
+		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
+	}
+
+	protected static ReportiumClient getReportiumClient(AndroidDriver driver) {
+		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
+				.withProject(new Project("WebMD Native", "1.0")) // Optional
+				.withContextTags("Regression", "SampleTag1", "SampleTag2") // Optional
+				.withWebDriver(driver).build();
+
+		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
 	}
 
 }
