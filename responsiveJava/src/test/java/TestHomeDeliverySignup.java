@@ -12,8 +12,6 @@ import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeClass;
 import org.openqa.selenium.By;
@@ -22,7 +20,6 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.allure.annotations.Attachment;
 import java.lang.reflect.Method;
@@ -225,24 +222,6 @@ public class TestHomeDeliverySignup {
 	}
 
 	protected static ReportiumClient getReportiumClient(RemoteWebDriver driver) {
-		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
-				.withProject(new Project("WebMD Web", "1.0")) // Optional
-				.withContextTags("Regression", "SampleTag1", "SampleTag2") // Optional
-				.withWebDriver(driver).build();
-
-		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
-	}
-
-	protected static ReportiumClient getReportiumClient(IOSDriver driver) {
-		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
-				.withProject(new Project("WebMD Native", "1.0")) // Optional
-				.withContextTags("Regression", "SampleTag1", "SampleTag2") // Optional
-				.withWebDriver(driver).build();
-
-		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
-	}
-
-	protected static ReportiumClient getReportiumClient(AndroidDriver driver) {
 		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
 				.withProject(new Project("Boston Globe", "1.0")) // Optional
 				.withContextTags("Build " + System.getProperty("BuildNumber")) // Optional
