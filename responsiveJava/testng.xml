@@ -15,7 +15,12 @@
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-
+	<test name="Sign up for home delivery - IE 11">
+		<parameter name="targetEnvironment" value="Internet Explorer 11" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
 	<test name="Sign up for home delivery - FF 43">
 		<parameter name="targetEnvironment" value="Firefox 43" />
 		<classes>
@@ -35,5 +40,11 @@
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-
+	
+	<test name="Sign up for home delivery - Chrome Beta">
+		<parameter name="targetEnvironment" value="Chrome Beta" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
 </suite> 

@@ -99,7 +99,18 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
 			break;
+		
+		case "Chrome Beta":
+			device = false;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "7");
+			capabilities.setCapability("browserName", "Chrome");
+			capabilities.setCapability("browserVersion", "beta");
+			capabilities.setCapability("resolution", "1366x768");
+			capabilities.setCapability("location", "US East");
+			break;
 		}
+		
 
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
 		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));
@@ -233,8 +244,8 @@ public class TestHomeDeliverySignup {
 
 	protected static ReportiumClient getReportiumClient(AndroidDriver driver) {
 		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
-				.withProject(new Project("WebMD Native", "1.0")) // Optional
-				.withContextTags("Regression", "SampleTag1", "SampleTag2") // Optional
+				.withProject(new Project("Boston Globe", "1.0")) // Optional
+				.withContextTags("Build " + System.getProperty("BuildNumber")) // Optional
 				.withWebDriver(driver).build();
 
 		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
