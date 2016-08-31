@@ -30,8 +30,6 @@ import java.util.concurrent.TimeUnit;
 
 public class TestHomeDeliverySignup {
 
-	public String SELENIUM_HUB_URL;
-	public String TARGET_SERVER_URL;
 	public RemoteWebDriver driver;
 	public WebDriverWait wait;
 	public boolean device;
@@ -65,6 +63,7 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "11");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
+			capabilities.setCapability("deviceType", "WEB");
 			break;
 
 		case "Firefox 43":
@@ -75,16 +74,18 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "43");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
+			capabilities.setCapability("deviceType", "WEB");
 			break;
 
 		case "Firefox 46":
 			device = false;
 			capabilities.setCapability("platformName", "Windows");
-			capabilities.setCapability("platformVersion", "8.1");
+			capabilities.setCapability("platformVersion", "7");
 			capabilities.setCapability("browserName", "Firefox");
 			capabilities.setCapability("browserVersion", "46");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
+			capabilities.setCapability("deviceType", "WEB");
 			break;
 
 		case "Chrome 48":
@@ -92,9 +93,10 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "XP");
 			capabilities.setCapability("browserName", "Chrome");
-			capabilities.setCapability("browserVersion", "49");
+			capabilities.setCapability("browserVersion", "48");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
+			capabilities.setCapability("deviceType", "WEB");
 			break;
 		
 		case "Chrome Beta":
@@ -105,13 +107,16 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "beta");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
+			capabilities.setCapability("deviceType", "WEB");
 			break;
 		}
 		
 
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
 		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));
-		capabilities.setCapability("newCommandTimeout", "120");
+
+		
+		capabilities.setCapability("newCommandTimeout", "30");
 		if (device) { capabilities.setCapability("windTunnelPersona", "Georgia"); }
 		capabilities.setCapability("scriptName", "Boston Globe");
 
@@ -140,6 +145,7 @@ public class TestHomeDeliverySignup {
 	}
 
 	public void openHomepage() {
+		reportiumClient.testStep("Open Homepage");
 		System.out.println("### Opening homepage ###");
 		driver.get(
 				"http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
@@ -149,6 +155,7 @@ public class TestHomeDeliverySignup {
 	}
 
 	public void enterZipCode() {
+		reportiumClient.testStep("Enter Zip Code");
 		System.out.println("### Entering zipcode ###");
 		driver.findElement(By.xpath("//input[@name='txtZip']")).clear();
 		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
@@ -157,6 +164,7 @@ public class TestHomeDeliverySignup {
 	}
 
 	public void selectLength() {
+		reportiumClient.testStep("Select Subscription Length");
 		System.out.println("### Selecting subscription length ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[1]/strong[1])[1]")));
 
@@ -167,6 +175,7 @@ public class TestHomeDeliverySignup {
 	}
 
 	public void enterDetails() {
+		reportiumClient.testStep("Enter Subscription Details");
 		System.out.println("### Entering subscription details ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
 		driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
@@ -205,6 +214,9 @@ public class TestHomeDeliverySignup {
 	@AfterMethod(alwaysRun = true)
 	public void afterTest(ITestResult testResult) {
 		int status = testResult.getStatus();
+		if (driver != null) {
+			driver.close();
+		}
 		switch (status) {
 		case ITestResult.FAILURE:
 			reportiumClient.testStop(TestResultFactory.createFailure("An error occurred", testResult.getThrowable()));
