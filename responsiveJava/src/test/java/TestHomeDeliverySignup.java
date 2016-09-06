@@ -20,7 +20,6 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.allure.annotations.Attachment;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -31,10 +30,11 @@ import java.util.concurrent.TimeUnit;
 public class TestHomeDeliverySignup {
 
 	public RemoteWebDriver driver;
-	public WebDriverWait wait;
 	public boolean device;
 	ReportiumClient reportiumClient;
 	String OS;
+	int retry = 60; //number of times to retry
+	int retryInterval = 5000; //retry in MS
 
 	public RemoteWebDriver createDriver(String targetEnvironment) throws MalformedURLException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -120,9 +120,17 @@ public class TestHomeDeliverySignup {
 		if (device) { capabilities.setCapability("windTunnelPersona", "Georgia"); }
 		capabilities.setCapability("scriptName", "Boston Globe");
 
-		driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub"),
-				capabilities);
-
+		while(retry > 0 && driver == null) {
+			try {
+				driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub"),
+						capabilities);
+			} catch (Exception e) {
+				retry--;
+				System.out.println("Failed to aquire browser session: " + targetEnvironment + ". Retrying...");
+				sleep(retryInterval);
+			}		
+		}
+		
 		OS = capabilities.getCapability("platformName").toString();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
@@ -186,7 +194,7 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone3']")).sendKeys("847");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");
-		takeScreenshot();
+		takeScreenshot();		
 	}
 
 	@BeforeClass(alwaysRun = true)
@@ -240,6 +248,12 @@ public class TestHomeDeliverySignup {
 				.withWebDriver(driver).build();
 
 		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
+	}
+
+	private static void sleep(long millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {}
 	}
 
 }
