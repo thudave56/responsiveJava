@@ -110,7 +110,7 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("deviceType", "WEB");
 			break;
 		}
-		
+
 
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
 		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));
