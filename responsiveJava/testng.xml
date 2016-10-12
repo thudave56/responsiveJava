@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="20" name="Java Responsive Web" parallel="tests">
-  
+<suite thread-count="50" name="Java Responsive Web" parallel="tests">
+	
+ 
 	<test name="Sign up for home delivery - Galaxy S6">
 		<parameter name="targetEnvironment" value="Galaxy S6" />
 		<classes>
@@ -42,15 +43,14 @@
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-	
+<!--	
 	<test name="Sign up for home delivery - Chrome Beta">
 		<parameter name="targetEnvironment" value="Chrome Beta" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-	
-<!--	
+ 	
 <test name="Sign up for home delivery - IE 11 - 172"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - Chrome 48 - 344"><parameter name="targetEnvironment" value="Chrome 48" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - IE 11 - 327"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
@@ -58,6 +58,7 @@
 <test name="Sign up for home delivery - IE 11 - 9"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - FF 46 - 366"><parameter name="targetEnvironment" value="Firefox 46" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - Chrome 48 - 269"><parameter name="targetEnvironment" value="Chrome 48" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
+
 <test name="Sign up for home delivery - IE 11 - 71"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - IE 11 - 381"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - IE 11 - 442"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
@@ -71,6 +72,7 @@
 <test name="Sign up for home delivery - IE 11 - 408"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - IE 11 - 454"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - FF 46 - 281"><parameter name="targetEnvironment" value="Firefox 46" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
+
 <test name="Sign up for home delivery - FF 46 - 369"><parameter name="targetEnvironment" value="Firefox 46" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - IE 11 - 194"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - FF 46 - 295"><parameter name="targetEnvironment" value="Firefox 46" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
@@ -1551,6 +1553,6 @@
 <test name="Sign up for home delivery - IE 11 - 385"><parameter name="targetEnvironment" value="Internet Explorer 11" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - Chrome 48 - 92"><parameter name="targetEnvironment" value="Chrome 48" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
 <test name="Sign up for home delivery - Chrome 48 - 21"><parameter name="targetEnvironment" value="Chrome 48" /><classes><class name="test.java.TestHomeDeliverySignup" /></classes></test>
-
 -->
+
 </suite>	

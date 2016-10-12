@@ -33,7 +33,7 @@ public class TestHomeDeliverySignup {
 	public boolean device;
 	ReportiumClient reportiumClient;
 	String OS;
-	int retry = 60; //number of times to retry
+	int retry = 5; //number of times to retry
 	int retryInterval = 5000; //retry in MS
 
 	public RemoteWebDriver createDriver(String targetEnvironment) throws MalformedURLException {
@@ -132,7 +132,7 @@ public class TestHomeDeliverySignup {
 		}
 		
 		OS = capabilities.getCapability("platformName").toString();
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 
 		return driver;
@@ -184,6 +184,7 @@ public class TestHomeDeliverySignup {
 
 	public void enterDetails() {
 		reportiumClient.testStep("Enter Subscription Details");
+		sleep(1000);
 		System.out.println("### Entering subscription details ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
 		driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
@@ -194,7 +195,8 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone3']")).sendKeys("847");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");
-		takeScreenshot();		
+		takeScreenshot();
+		
 	}
 
 	@BeforeClass(alwaysRun = true)
@@ -222,9 +224,7 @@ public class TestHomeDeliverySignup {
 	@AfterMethod(alwaysRun = true)
 	public void afterTest(ITestResult testResult) {
 		int status = testResult.getStatus();
-		if (driver != null) {
-			driver.close();
-		}
+		
 		switch (status) {
 		case ITestResult.FAILURE:
 			reportiumClient.testStop(TestResultFactory.createFailure("An error occurred", testResult.getThrowable()));
@@ -238,6 +238,10 @@ public class TestHomeDeliverySignup {
 			break;
 		default:
 			throw new ReportiumException("Unexpected status " + status);
+		}
+		
+		if (driver != null) {
+			driver.close();
 		}
 	}
 
