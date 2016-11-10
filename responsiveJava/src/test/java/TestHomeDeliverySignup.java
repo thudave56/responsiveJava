@@ -115,6 +115,7 @@ public class TestHomeDeliverySignup {
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
 		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));
 
+
 		
 		capabilities.setCapability("newCommandTimeout", "30");
 		if (device) { capabilities.setCapability("windTunnelPersona", "Georgia"); }
@@ -180,6 +181,10 @@ public class TestHomeDeliverySignup {
 		js.executeScript("$('input:radio[name=rdSubscription][value=4]').trigger('click');");
 		driver.findElement(By.xpath("//input[@id='continue_btn']")).click();
 		takeScreenshot();
+
+		
+		
+		
 	}
 
 	public void enterDetails() {
@@ -249,6 +254,7 @@ public class TestHomeDeliverySignup {
 		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
 				.withProject(new Project("Boston Globe", "1.0")) // Optional
 				.withContextTags("Build " + System.getProperty("BuildNumber")) // Optional
+				.withContextTags("Software Version: 1.59.3")
 				.withWebDriver(driver).build();
 
 		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
