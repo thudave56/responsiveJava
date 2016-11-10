@@ -253,8 +253,7 @@ public class TestHomeDeliverySignup {
 	protected static ReportiumClient getReportiumClient(RemoteWebDriver driver) {
 		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
 				.withProject(new Project("Boston Globe", "1.0")) // Optional
-				.withContextTags("Build " + System.getProperty("BuildNumber")) // Optional
-				.withContextTags("Software Version: 1.59.3")
+				.withContextTags("Build " + System.getProperty("BuildNumber"), "Software Version: 1.59.3") // Optional
 				.withWebDriver(driver).build();
 
 		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
