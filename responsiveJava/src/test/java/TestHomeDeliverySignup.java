@@ -20,6 +20,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
 import ru.yandex.qatools.allure.annotations.Attachment;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -38,6 +39,7 @@ public class TestHomeDeliverySignup {
 
 	public RemoteWebDriver createDriver(String targetEnvironment) throws MalformedURLException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
+
 		//capabilities.setCapability("openDeviceTimeout", 5);
 
 		switch (targetEnvironment) {
@@ -109,6 +111,8 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("location", "US East");
 			capabilities.setCapability("deviceType", "WEB");
 			break;
+			
+			
 		}
 
 
@@ -160,6 +164,8 @@ public class TestHomeDeliverySignup {
 				"http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
 		takeScreenshot();
+
+
 
 	}
 
