@@ -18,14 +18,14 @@
 
 
 	
--->
+
 	<test name="Sign up for home delivery - Galaxy S6">
 		<parameter name="targetEnvironment" value="Galaxy S6" />
 		<classes>
 			<class name="test.java.UiValidation" />
 		</classes>
 	</test>	
-
+-->
 	<test name="Sign up for home delivery - Galaxy S6">
 		<parameter name="targetEnvironment" value="Galaxy S6" />
 		<classes>
