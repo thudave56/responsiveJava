@@ -25,6 +25,9 @@ import ru.yandex.qatools.allure.annotations.Attachment;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +37,7 @@ public class TestHomeDeliverySignup {
 	public boolean device;
 	ReportiumClient reportiumClient;
 	String OS;
-	int retry = 5; //number of times to retry
+	int retry = 1; //number of times to retry
 	int retryInterval = 5000; //retry in MS
 
 	public RemoteWebDriver createDriver(String targetEnvironment) throws MalformedURLException {
@@ -111,22 +114,60 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("location", "US East");
 			capabilities.setCapability("deviceType", "WEB");
 			break;
+		case "Safari 10 Sierra":
+			device = false;
+			capabilities.setCapability("platformName", "Mac");
+			capabilities.setCapability("platformVersion", "macOS Sierra");
+			capabilities.setCapability("browserName", "Safari");
+			capabilities.setCapability("browserVersion", "10");
+			capabilities.setCapability("resolution", "1440x900");
+			capabilities.setCapability("location", "NA-US-BOS");
+			break;	
 			
+		case "Safari 9 Yosemite":
+			device = false;
+			capabilities.setCapability("platformName", "Mac");
+			capabilities.setCapability("platformVersion", "OS X Yosemite");
+			capabilities.setCapability("browserName", "Safari");
+			capabilities.setCapability("browserVersion", "9");
+			capabilities.setCapability("resolution", "1440x900");
+			capabilities.setCapability("location", "NA-US-BOS");
+			break;
+		
+		case "Safari 8 Yosemite":
+			device = false;
+			capabilities.setCapability("platformName", "Mac");
+			capabilities.setCapability("platformVersion", "OS X Yosemite");
+			capabilities.setCapability("browserName", "Safari");
+			capabilities.setCapability("browserVersion", "8");
+			capabilities.setCapability("resolution", "1440x900");
+			capabilities.setCapability("location", "NA-US-BOS");
+			break;
+		
+		case "Safari 9 Capitan":
+			device = false;
+			capabilities.setCapability("platformName", "Mac");
+			capabilities.setCapability("platformVersion", "OS X El Capitan");
+			capabilities.setCapability("browserName", "Safari");
+			capabilities.setCapability("browserVersion", "9");
+			capabilities.setCapability("resolution", "1440x900");
+			capabilities.setCapability("location", "NA-US-BOS");
+			break;
 			
 		}
 
-
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
-		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));
-
-
-		
+		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));		
 		capabilities.setCapability("newCommandTimeout", "30");
 		if (device) { capabilities.setCapability("windTunnelPersona", "Georgia"); }
-		capabilities.setCapability("scriptName", "Boston Globe");
+		//	if (device) { capabilities.setCapability("windTunnelPersona", "Ross"); }
+		//capabilities.setCapability("scriptName", "Boston Globe");
+		capabilities.setCapability("scriptName", "Boston Globe - " + targetEnvironment);
+		
 
 		while(retry > 0 && driver == null) {
 			try {
+				System.out.println("Trying to aquire session: " + targetEnvironment);
 				driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub"),
 						capabilities);
 			} catch (Exception e) {
@@ -139,7 +180,7 @@ public class TestHomeDeliverySignup {
 		OS = capabilities.getCapability("platformName").toString();
 		driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
-
+		if(device) {startLogging();}
 		return driver;
 	}
 
@@ -221,7 +262,9 @@ public class TestHomeDeliverySignup {
 	@AfterClass(alwaysRun = true)
 	public void baseAfterClass() {
 		System.out.println("Report url = " + reportiumClient.getReportUrl());
+		
 		if (driver != null) {
+			if(device){endLogging();}
 			driver.quit();
 		}
 	}
@@ -252,6 +295,7 @@ public class TestHomeDeliverySignup {
 		}
 		
 		if (driver != null) {
+			if(device){endLogging();}
 			driver.close();
 		}
 	}
@@ -269,6 +313,23 @@ public class TestHomeDeliverySignup {
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException e) {}
+	}
+	
+	private void startLogging() {
+		Map<String, Object> params1 = new HashMap<>();
+		Object result1 = driver.executeScript("mobile:logs:start", params1);
+		
+		Map<String, Object> params3 = new HashMap<>();
+		List<String> vitals3 = new ArrayList<>();
+		vitals3.add("all");
+		params3.put("vitals", vitals3);
+		params3.put("interval", "1");
+		Object result3 = driver.executeScript("mobile:monitor:start", params3);
+	}
+	
+	private void endLogging() {
+		Map<String, Object> params2 = new HashMap<>();
+		Object result2 = driver.executeScript("mobile:logs:stop", params2);
 	}
 
 }
