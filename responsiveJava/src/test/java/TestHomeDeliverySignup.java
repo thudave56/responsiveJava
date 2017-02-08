@@ -264,7 +264,7 @@ public class TestHomeDeliverySignup {
 		System.out.println("Report url = " + reportiumClient.getReportUrl());
 		
 		if (driver != null) {
-			if(device){endLogging();}
+			//if(device){endLogging();}
 			driver.quit();
 		}
 	}
