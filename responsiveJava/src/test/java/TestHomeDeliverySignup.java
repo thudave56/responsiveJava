@@ -35,6 +35,7 @@ public class TestHomeDeliverySignup {
 
 	public RemoteWebDriver driver;
 	public boolean device;
+	public boolean fast;
 	ReportiumClient reportiumClient;
 	String OS;
 	int retry = 1; //number of times to retry
@@ -48,6 +49,7 @@ public class TestHomeDeliverySignup {
 		switch (targetEnvironment) {
 		case "Galaxy S6":
 			device = true;
+			fast = false;
 			capabilities.setCapability("platformName", "Android");
 			capabilities.setCapability("deviceName", "05157DF532C1D40F");
 			capabilities.setCapability("browserName", "mobileChrome");
@@ -55,13 +57,27 @@ public class TestHomeDeliverySignup {
 
 		case "iPhone 6":
 			device = true;
+			fast = false;
 			capabilities.setCapability("platformName", "iOS");
 			capabilities.setCapability("deviceName", "030FB4BA028AFB24D4800B3715516A680E022C5D");
 			capabilities.setCapability("browserName", "mobileSafari");
 			break;
+		
+		case "Chrome 56 Fast":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Chrome");
+			capabilities.setCapability("browserVersion", "56");
+			capabilities.setCapability("resolution", "1280x1024");
+			capabilities.setCapability("location", "US East");
+			capabilities.setCapability("deviceType", "WEB");
+			break;
 
 		case "Internet Explorer 11":
 			device = false;
+			fast = false;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "8.1");
 			capabilities.setCapability("browserName", "Internet Explorer");
@@ -73,6 +89,7 @@ public class TestHomeDeliverySignup {
 
 		case "Firefox 43":
 			device = false;
+			fast = false;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "8.1");
 			capabilities.setCapability("browserName", "Firefox");
@@ -84,6 +101,7 @@ public class TestHomeDeliverySignup {
 
 		case "Firefox 46":
 			device = false;
+			fast = false;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "7");
 			capabilities.setCapability("browserName", "Firefox");
@@ -95,6 +113,7 @@ public class TestHomeDeliverySignup {
 
 		case "Chrome 48":
 			device = false;
+			fast = false;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "XP");
 			capabilities.setCapability("browserName", "Chrome");
@@ -106,6 +125,7 @@ public class TestHomeDeliverySignup {
 		
 		case "Chrome Beta":
 			device = false;
+			fast = false;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "7");
 			capabilities.setCapability("browserName", "Chrome");
@@ -116,6 +136,7 @@ public class TestHomeDeliverySignup {
 			break;
 		case "Safari 10 Sierra":
 			device = false;
+			fast = false;
 			capabilities.setCapability("platformName", "Mac");
 			capabilities.setCapability("platformVersion", "macOS Sierra");
 			capabilities.setCapability("browserName", "Safari");
@@ -126,6 +147,7 @@ public class TestHomeDeliverySignup {
 			
 		case "Safari 9 Yosemite":
 			device = false;
+			fast = false;
 			capabilities.setCapability("platformName", "Mac");
 			capabilities.setCapability("platformVersion", "OS X Yosemite");
 			capabilities.setCapability("browserName", "Safari");
@@ -136,6 +158,7 @@ public class TestHomeDeliverySignup {
 		
 		case "Safari 8 Yosemite":
 			device = false;
+			fast = false;
 			capabilities.setCapability("platformName", "Mac");
 			capabilities.setCapability("platformVersion", "OS X Yosemite");
 			capabilities.setCapability("browserName", "Safari");
@@ -146,6 +169,7 @@ public class TestHomeDeliverySignup {
 		
 		case "Safari 9 Capitan":
 			device = false;
+			fast = false;
 			capabilities.setCapability("platformName", "Mac");
 			capabilities.setCapability("platformVersion", "OS X El Capitan");
 			capabilities.setCapability("browserName", "Safari");
@@ -158,18 +182,25 @@ public class TestHomeDeliverySignup {
 
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
 		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));		
+		if(fast) { capabilities.setCapability("offline-token", System.getProperty("PerfectoToken"));}
 		capabilities.setCapability("newCommandTimeout", "30");
 		if (device) { capabilities.setCapability("windTunnelPersona", "Georgia"); }
 		//	if (device) { capabilities.setCapability("windTunnelPersona", "Ross"); }
-		//capabilities.setCapability("scriptName", "Boston Globe");
+		
 		capabilities.setCapability("scriptName", "Boston Globe - " + targetEnvironment);
 		
 
 		while(retry > 0 && driver == null) {
 			try {
 				System.out.println("Trying to aquire session: " + targetEnvironment);
-				driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub"),
+				if(fast) {
+					driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub/fast"),
 						capabilities);
+				} else {
+					driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub"),
+						capabilities);
+				}
+				
 			} catch (Exception e) {
 				retry--;
 				System.out.println("Failed to aquire browser session: " + targetEnvironment + ". Retrying...");
@@ -261,7 +292,8 @@ public class TestHomeDeliverySignup {
 
 	@AfterClass(alwaysRun = true)
 	public void baseAfterClass() {
-		System.out.println("Report url = " + reportiumClient.getReportUrl());
+		try{ System.out.println("Report url = " + reportiumClient.getReportUrl()); }
+		catch (Exception e) {}
 		
 		if (driver != null) {
 			//if(device){endLogging();}
@@ -303,7 +335,7 @@ public class TestHomeDeliverySignup {
 	protected static ReportiumClient getReportiumClient(RemoteWebDriver driver) {
 		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
 				.withProject(new Project("Boston Globe", "1.0")) // Optional
-				.withContextTags("Build " + System.getProperty("BuildNumber"), "Software Version: 1.59.3") // Optional
+				.withContextTags("Build " + System.getProperty("BuildNumber"), "Software Version: 1.6", "Responsive Build Validation", "patrickm") // Optional
 				.withWebDriver(driver).build();
 
 		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
@@ -316,15 +348,15 @@ public class TestHomeDeliverySignup {
 	}
 	
 	private void startLogging() {
-		Map<String, Object> params1 = new HashMap<>();
-		Object result1 = driver.executeScript("mobile:logs:start", params1);
+		Map<String, Object> params = new HashMap<>();
+		driver.executeScript("mobile:logs:start", params);
 		
-		Map<String, Object> params3 = new HashMap<>();
+		params.clear();
 		List<String> vitals3 = new ArrayList<>();
 		vitals3.add("all");
-		params3.put("vitals", vitals3);
-		params3.put("interval", "1");
-		Object result3 = driver.executeScript("mobile:monitor:start", params3);
+		params.put("vitals", vitals3);
+		params.put("interval", "1");
+		driver.executeScript("mobile:monitor:start", params);
 	}
 	
 	private void endLogging() {
