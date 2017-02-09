@@ -203,6 +203,7 @@ public class TestHomeDeliverySignup {
 				
 			} catch (Exception e) {
 				retry--;
+				e.printStackTrace();
 				System.out.println("Failed to aquire browser session: " + targetEnvironment + ". Retrying...");
 				sleep(retryInterval);
 			}		
