@@ -99,14 +99,14 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("deviceType", "WEB");
 			break;
 
-		case "Firefox 46":
+		case "Firefox 49":
 			device = false;
-			fast = false;
+			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "7");
 			capabilities.setCapability("browserName", "Firefox");
-			capabilities.setCapability("browserVersion", "46");
-			capabilities.setCapability("resolution", "1366x768");
+			capabilities.setCapability("browserVersion", "49");
+			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
 			capabilities.setCapability("deviceType", "WEB");
 			break;
@@ -125,12 +125,12 @@ public class TestHomeDeliverySignup {
 		
 		case "Chrome Beta":
 			device = false;
-			fast = false;
+			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "7");
 			capabilities.setCapability("browserName", "Chrome");
 			capabilities.setCapability("browserVersion", "beta");
-			capabilities.setCapability("resolution", "1366x768");
+			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
 			capabilities.setCapability("deviceType", "WEB");
 			break;
@@ -177,6 +177,17 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("resolution", "1440x900");
 			capabilities.setCapability("location", "NA-US-BOS");
 			break;
+		
+		case "Firefox Beta":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Firefox");
+			capabilities.setCapability("browserVersion", "beta");
+			capabilities.setCapability("resolution", "1280x1024");
+			capabilities.setCapability("location", "US East");
+			break;
 			
 		}
 
@@ -189,16 +200,20 @@ public class TestHomeDeliverySignup {
 		
 		capabilities.setCapability("scriptName", "Boston Globe - " + targetEnvironment);
 		
-
+		long startTime; 
 		while(retry > 0 && driver == null) {
+			startTime = System.nanoTime();
 			try {
 				System.out.println("Trying to aquire session: " + targetEnvironment);
 				if(fast) {
+					
 					driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub/fast"),
 						capabilities);
+					System.out.println(targetEnvironment + ": " + (System.nanoTime() - startTime) / 1000000);
 				} else {
 					driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub"),
 						capabilities);
+					System.out.println(targetEnvironment + ": " + (System.nanoTime() - startTime) / 1000000);
 				}
 				
 			} catch (Exception e) {
@@ -213,12 +228,17 @@ public class TestHomeDeliverySignup {
 		driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		if(device) {startLogging();}
+	
+
+		
+		
+		
 		return driver;
 	}
 
 	@Attachment
 	public byte[] takeScreenshot() {
-		System.out.println("Taking screenshot");
+		//System.out.println("Taking screenshot");
 		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 	}
 
@@ -232,7 +252,7 @@ public class TestHomeDeliverySignup {
 
 	public void openHomepage() {
 		reportiumClient.testStep("Open Homepage");
-		System.out.println("### Opening homepage ###");
+		//System.out.println("### Opening homepage ###");
 		driver.get(
 				"http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
@@ -244,7 +264,7 @@ public class TestHomeDeliverySignup {
 
 	public void enterZipCode() {
 		reportiumClient.testStep("Enter Zip Code");
-		System.out.println("### Entering zipcode ###");
+		//System.out.println("### Entering zipcode ###");
 		driver.findElement(By.xpath("//input[@name='txtZip']")).clear();
 		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
 		driver.findElement(By.xpath("//input[@id='cmdSubmit']")).click();
@@ -253,7 +273,7 @@ public class TestHomeDeliverySignup {
 
 	public void selectLength() {
 		reportiumClient.testStep("Select Subscription Length");
-		System.out.println("### Selecting subscription length ###");
+		//System.out.println("### Selecting subscription length ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[1]/strong[1])[1]")));
 
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -269,7 +289,7 @@ public class TestHomeDeliverySignup {
 	public void enterDetails() {
 		reportiumClient.testStep("Enter Subscription Details");
 		sleep(1000);
-		System.out.println("### Entering subscription details ###");
+		//System.out.println("### Entering subscription details ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
 		driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryLastName']")).sendKeys("McCartney");
@@ -334,6 +354,9 @@ public class TestHomeDeliverySignup {
 	}
 
 	protected static ReportiumClient getReportiumClient(RemoteWebDriver driver) {
+		
+		
+		
 		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
 				.withProject(new Project("Boston Globe", "1.0")) // Optional
 				.withContextTags("Build " + System.getProperty("BuildNumber"), "Software Version: 1.6", "Responsive Build Validation", "patrickm") // Optional
@@ -358,11 +381,21 @@ public class TestHomeDeliverySignup {
 		params.put("vitals", vitals3);
 		params.put("interval", "1");
 		driver.executeScript("mobile:monitor:start", params);
+		
+		
+		Map<String, Object> params1 = new HashMap<>();
+		params1.put("profile", "4g_lte_average");
+		Object result1 = driver.executeScript("mobile:vnetwork:start", params1);
 	}
 	
 	private void endLogging() {
 		Map<String, Object> params2 = new HashMap<>();
 		Object result2 = driver.executeScript("mobile:logs:stop", params2);
+		
+		Map<String, Object> params3 = new HashMap<>();
+		Object result3 = driver.executeScript("mobile:vnetwork:stop", params3);
+		
+		
 	}
 
 }
