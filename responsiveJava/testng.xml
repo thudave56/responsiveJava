@@ -36,7 +36,7 @@
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-
+<!--  
 
 	<test name="Sign up for home delivery - Chrome 56 Fast 3">
 		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
@@ -97,7 +97,7 @@
 		</classes>
 	</test>
 
-
+-->
 
 
 	<test name="Sign up for home delivery - IE 11">
