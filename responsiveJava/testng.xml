@@ -142,13 +142,14 @@
 	</test>
 
 
-
+<!--  
 	<test name="Sign up for home delivery - Safari 8 Yosemite">
 		<parameter name="targetEnvironment" value="Safari 8 Yosemite" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
+-->
 
 	<test name="Sign up for home delivery - Safari 9 Capitan">
 		<parameter name="targetEnvironment" value="Safari 9 Capitan" />
