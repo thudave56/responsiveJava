@@ -63,7 +63,7 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserName", "mobileSafari");
 			break;
 		
-		case "Chrome 56 Fast":
+		case "Chrome 56":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
@@ -77,7 +77,7 @@ public class TestHomeDeliverySignup {
 
 		case "Internet Explorer 11":
 			device = false;
-			fast = false;
+			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "8.1");
 			capabilities.setCapability("browserName", "Internet Explorer");
@@ -87,25 +87,25 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("deviceType", "WEB");
 			break;
 
-		case "Firefox 43":
+		case "Firefox 54":
 			device = false;
-			fast = false;
+			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "8.1");
 			capabilities.setCapability("browserName", "Firefox");
-			capabilities.setCapability("browserVersion", "43");
+			capabilities.setCapability("browserVersion", "54");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
 			capabilities.setCapability("deviceType", "WEB");
 			break;
 
-		case "Firefox 49":
+		case "Firefox 53":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "7");
 			capabilities.setCapability("browserName", "Firefox");
-			capabilities.setCapability("browserVersion", "49");
+			capabilities.setCapability("browserVersion", "53");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
 			capabilities.setCapability("deviceType", "WEB");
