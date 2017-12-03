@@ -74,6 +74,18 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("location", "US East");
 			capabilities.setCapability("deviceType", "WEB");
 			break;
+			
+		case "Chrome 62":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Chrome");
+			capabilities.setCapability("browserVersion", "62");
+			capabilities.setCapability("resolution", "1280x1024");
+			capabilities.setCapability("location", "US East");
+			capabilities.setCapability("deviceType", "WEB");
+			break;	
 
 		case "Internet Explorer 11":
 			device = false;
@@ -188,17 +200,32 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
 			break;
+		case "Edge 16":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Edge");
+			capabilities.setCapability("browserVersion", "16");
+			capabilities.setCapability("resolution", "1600x1200");
+			capabilities.setCapability("location", "US East");
+			break;
 			
 		}
 
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
 		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));		
 		if(fast) { capabilities.setCapability("offline-token", System.getProperty("PerfectoToken"));}
+		//capabilities.setCapability("securityToken", "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJmZGNiNDRjMS1hN2VhLTQwM2MtYmNhOS1jNmYyOWVlNjg4OTkiLCJleHAiOjAsIm5iZiI6MCwiaWF0IjoxNTAwOTIzNjI0LCJpc3MiOiJodHRwczovL2F1dGgucGVyZmVjdG9tb2JpbGUuY29tL2F1dGgvcmVhbG1zL2RlbW8tcGVyZmVjdG9tb2JpbGUtY29tIiwiYXVkIjoib2ZmbGluZS10b2tlbi1nZW5lcmF0b3IiLCJzdWIiOiJlM2I3ODM1ZS03M2Y1LTQwYzAtYWE4YS00ZWVmYzg5NjU4NTUiLCJ0eXAiOiJPZmZsaW5lIiwiYXpwIjoib2ZmbGluZS10b2tlbi1nZW5lcmF0b3IiLCJzZXNzaW9uX3N0YXRlIjoiNTAyMGZjNGEtMzcxNi00ZDI3LTgxZTktYjcyN2U0MjJmYTY2IiwiY2xpZW50X3Nlc3Npb24iOiJjOGQxNGNlMi1iZTA1LTRmMDYtOTQyOS03NTNlMWNkMzYwNzMiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50Iiwidmlldy1wcm9maWxlIl19fX0.nt3aR7ZD1M21h32OWJUgI0Wc3cCZ9otJBRT24yiTTUpVNJlbgt9JxW-laCXVZYbaf3H4zTy8WdNAYIt8j26fBNH5UXPQRnIGqcSM_1cRPK_KYHRLJ_ELyZcX5B753MjOILRZeo44vkh5aOZl0nO_Afyij74sectzejnUFvf1vCpRzM_FEnWIo7TL8JsTO-1YfQ4R4VmPpU_tZUhT6sDlPTrwJ0v9b021cNIjpHtGeCXUT4Z-As0mfET1o6ITyWSIOQchWpJNDoKj-AAe9OyHSUfCNoM39dhSb4BEtWanj3ViYCkIgMXl0A73I1QmBC7FsboTf4yebkBWMaZkoe3SNw");        
+		
 		capabilities.setCapability("newCommandTimeout", "30");
 		if (device) { capabilities.setCapability("windTunnelPersona", "Georgia"); }
 		//	if (device) { capabilities.setCapability("windTunnelPersona", "Ross"); }
 		
 		capabilities.setCapability("scriptName", "Boston Globe - " + targetEnvironment);
+		capabilities.setCapability("outputVideo", true);
+		capabilities.setCapability("outputReport", true);
+		//capabilities.setCapability("tunnelId",	"45fec35d-06d1-40ea-87c1-47c343c04f10");
 		
 		long startTime; 
 		while(retry > 0 && driver == null) {
@@ -226,10 +253,9 @@ public class TestHomeDeliverySignup {
 		
 		OS = capabilities.getCapability("platformName").toString();
 		driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-		driver.manage().window().maximize();
 		if(device) {startLogging();}
 	
-
+		System.out.println(targetEnvironment + " - " + driver.manage().window().getSize());
 		
 		
 		
@@ -244,35 +270,65 @@ public class TestHomeDeliverySignup {
 
 	@Test
 	public void BostonGlobeTest() {
+	/*
+		driver.get("http://192.168.1.101:5000");
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		takeScreenshot();
+		driver.findElementByXPath("//*[@id='login_username']").sendKeys("patrick");
+		driver.findElementByXPath("//*[@id='login_passwd']").sendKeys("test");
+		driver.findElementByXPath("//*[@id='ext-gen40']").click();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		takeScreenshot();
+		
+		takeScreenshot();
+		*/
 		openHomepage();
 		enterZipCode();
 		selectLength();
 		enterDetails();
+
+
+		
 	}
 
 	public void openHomepage() {
-		reportiumClient.testStep("Open Homepage");
+		reportiumClient.stepStart("Open Homepage");
 		//System.out.println("### Opening homepage ###");
 		driver.get(
 				"http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
 		takeScreenshot();
-
+		reportiumClient.stepEnd("Open Homepage");
 
 
 	}
 
 	public void enterZipCode() {
-		reportiumClient.testStep("Enter Zip Code");
+		reportiumClient.stepStart("Enter Zip Code");
+		
 		//System.out.println("### Entering zipcode ###");
 		driver.findElement(By.xpath("//input[@name='txtZip']")).clear();
 		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
+		//driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("secured.eW1U4AHF/7fA0km7X2ty2w==");
+		
+		
 		driver.findElement(By.xpath("//input[@id='cmdSubmit']")).click();
 		takeScreenshot();
+		reportiumClient.stepEnd("Enter Zip Code");
 	}
 
 	public void selectLength() {
-		reportiumClient.testStep("Select Subscription Length");
+		reportiumClient.stepStart("Select Subscription Length");
 		//System.out.println("### Selecting subscription length ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[1]/strong[1])[1]")));
 
@@ -281,13 +337,13 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//input[@id='continue_btn']")).click();
 		takeScreenshot();
 
-		
+		reportiumClient.stepEnd("Select Subscription Length");
 		
 		
 	}
 
 	public void enterDetails() {
-		reportiumClient.testStep("Enter Subscription Details");
+		reportiumClient.stepStart("Enter Subscription Details");
 		sleep(1000);
 		//System.out.println("### Entering subscription details ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
@@ -300,7 +356,7 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");
 		takeScreenshot();
-		
+		reportiumClient.stepEnd("Enter Subscription Details");
 	}
 
 	@BeforeClass(alwaysRun = true)
