@@ -215,7 +215,7 @@ public class TestHomeDeliverySignup {
 
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
 		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));		
-		if(fast) { capabilities.setCapability("offline-token", System.getProperty("PerfectoToken"));}
+		if(fast) { capabilities.setCapability("securityToken", System.getProperty("PerfectoToken"));}
 		//capabilities.setCapability("securityToken", "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJmZGNiNDRjMS1hN2VhLTQwM2MtYmNhOS1jNmYyOWVlNjg4OTkiLCJleHAiOjAsIm5iZiI6MCwiaWF0IjoxNTAwOTIzNjI0LCJpc3MiOiJodHRwczovL2F1dGgucGVyZmVjdG9tb2JpbGUuY29tL2F1dGgvcmVhbG1zL2RlbW8tcGVyZmVjdG9tb2JpbGUtY29tIiwiYXVkIjoib2ZmbGluZS10b2tlbi1nZW5lcmF0b3IiLCJzdWIiOiJlM2I3ODM1ZS03M2Y1LTQwYzAtYWE4YS00ZWVmYzg5NjU4NTUiLCJ0eXAiOiJPZmZsaW5lIiwiYXpwIjoib2ZmbGluZS10b2tlbi1nZW5lcmF0b3IiLCJzZXNzaW9uX3N0YXRlIjoiNTAyMGZjNGEtMzcxNi00ZDI3LTgxZTktYjcyN2U0MjJmYTY2IiwiY2xpZW50X3Nlc3Npb24iOiJjOGQxNGNlMi1iZTA1LTRmMDYtOTQyOS03NTNlMWNkMzYwNzMiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50Iiwidmlldy1wcm9maWxlIl19fX0.nt3aR7ZD1M21h32OWJUgI0Wc3cCZ9otJBRT24yiTTUpVNJlbgt9JxW-laCXVZYbaf3H4zTy8WdNAYIt8j26fBNH5UXPQRnIGqcSM_1cRPK_KYHRLJ_ELyZcX5B753MjOILRZeo44vkh5aOZl0nO_Afyij74sectzejnUFvf1vCpRzM_FEnWIo7TL8JsTO-1YfQ4R4VmPpU_tZUhT6sDlPTrwJ0v9b021cNIjpHtGeCXUT4Z-As0mfET1o6ITyWSIOQchWpJNDoKj-AAe9OyHSUfCNoM39dhSb4BEtWanj3ViYCkIgMXl0A73I1QmBC7FsboTf4yebkBWMaZkoe3SNw");        
 		
 		capabilities.setCapability("newCommandTimeout", "30");
@@ -225,7 +225,9 @@ public class TestHomeDeliverySignup {
 		capabilities.setCapability("scriptName", "Boston Globe - " + targetEnvironment);
 		capabilities.setCapability("outputVideo", true);
 		capabilities.setCapability("outputReport", true);
-		//capabilities.setCapability("tunnelId",	"45fec35d-06d1-40ea-87c1-47c343c04f10");
+		String tunnelId = "9f7bcff6-be5d-4c00-8e8f-b3346b4f8a3f";
+		capabilities.setCapability("tunnelId",	tunnelId);
+		System.setProperty("tunnelId", tunnelId);
 		
 		long startTime; 
 		while(retry > 0 && driver == null) {
@@ -415,7 +417,7 @@ public class TestHomeDeliverySignup {
 		
 		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
 				.withProject(new Project("Boston Globe", "1.0")) // Optional
-				.withContextTags("Build " + System.getProperty("BuildNumber"), "Software Version: 1.6", "Responsive Build Validation", "patrickm") // Optional
+				.withContextTags("Build " + System.getProperty("BuildNumber"), "Software Version: 1.6", "Responsive Build Validation", "patrickm", System.getProperty("tunnelId")) // Optional
 				.withWebDriver(driver).build();
 
 		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
