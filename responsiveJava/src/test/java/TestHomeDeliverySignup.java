@@ -225,9 +225,10 @@ public class TestHomeDeliverySignup {
 		capabilities.setCapability("scriptName", "Boston Globe - " + targetEnvironment);
 		capabilities.setCapability("outputVideo", true);
 		capabilities.setCapability("outputReport", true);
-		String tunnelId = "9f7bcff6-be5d-4c00-8e8f-b3346b4f8a3f";
-		capabilities.setCapability("tunnelId",	tunnelId);
-		System.setProperty("tunnelId", tunnelId);
+		String tunnelId = System.getProperty("tunnelId");
+		if(tunnelId.length() > 0){
+			capabilities.setCapability("tunnelId",	tunnelId);
+		}
 		
 		long startTime; 
 		while(retry > 0 && driver == null) {
