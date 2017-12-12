@@ -311,6 +311,7 @@ public class TestHomeDeliverySignup {
             e.printStackTrace(new PrintWriter(sw));
             String exceptionAsString = sw.toString();
             System.out.println(exceptionAsString);
+            throw e; 
 		}
 
 
