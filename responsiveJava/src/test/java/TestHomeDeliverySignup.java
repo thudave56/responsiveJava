@@ -43,6 +43,7 @@ public class TestHomeDeliverySignup {
 	String OS;
 	int retry = 1; //number of times to retry
 	int retryInterval = 5000; //retry in MS
+	Exception ex = null;
 
 	public RemoteWebDriver createDriver(String targetEnvironment) throws MalformedURLException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -228,8 +229,9 @@ public class TestHomeDeliverySignup {
 		capabilities.setCapability("scriptName", "Boston Globe - " + targetEnvironment);
 		capabilities.setCapability("outputVideo", true);
 		capabilities.setCapability("outputReport", true);
-		String tunnelId = System.getProperty("tunnelId");
-		if(tunnelId.length() > 0){
+		String tunnelId;
+		tunnelId = System.getProperty("tunnelId");
+		if(tunnelId != null){
 			capabilities.setCapability("tunnelId",	tunnelId);
 		}
 		
@@ -304,6 +306,7 @@ public class TestHomeDeliverySignup {
 			selectLength();
 			enterDetails();			
 		} catch (Exception e) {
+			ex = e;
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             String exceptionAsString = sw.toString();
@@ -331,7 +334,7 @@ public class TestHomeDeliverySignup {
 		reportiumClient.stepStart("Enter Zip Code");
 		
 		//System.out.println("### Entering zipcode ###");
-		driver.findElement(By.xpath("//input[@name='txtZip']")).clear();
+		driver.findElement(By.xpath("//input[@name='1txtZip']")).clear();
 		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
 		//driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("secured.eW1U4AHF/7fA0km7X2ty2w==");
 		
@@ -400,6 +403,11 @@ public class TestHomeDeliverySignup {
 
 	@AfterMethod(alwaysRun = true)
 	public void afterTest(ITestResult testResult) {
+		if(ex != null){
+			testResult.setStatus(ITestResult.FAILURE);
+			testResult.setThrowable(ex);
+		}
+		
 		int status = testResult.getStatus();
 		
 		switch (status) {
