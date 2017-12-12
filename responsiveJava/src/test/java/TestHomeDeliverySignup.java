@@ -22,6 +22,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import ru.yandex.qatools.allure.annotations.Attachment;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -295,10 +298,18 @@ public class TestHomeDeliverySignup {
 		
 		takeScreenshot();
 		*/
-		openHomepage();
-		enterZipCode();
-		selectLength();
-		enterDetails();
+		try{
+			openHomepage();
+			enterZipCode();
+			selectLength();
+			enterDetails();			
+		} catch (Exception e) {
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String exceptionAsString = sw.toString();
+            System.out.println(exceptionAsString);
+		}
+
 
 
 		
