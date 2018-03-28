@@ -76,7 +76,6 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "56");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 			
 		case "Chrome 62":
@@ -88,7 +87,6 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "62");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;	
 
 		case "Internet Explorer 11":
@@ -100,7 +98,6 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "11");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 
 		case "Firefox 54":
@@ -112,7 +109,6 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "54");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 
 		case "Firefox 53":
@@ -124,7 +120,6 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "53");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 
 		case "Chrome 48":
@@ -136,7 +131,6 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "48");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 		
 		case "Chrome Beta":
@@ -148,7 +142,6 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "beta");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 		case "Safari 10 Sierra":
 			device = false;
@@ -356,8 +349,10 @@ public class TestHomeDeliverySignup {
 		//System.out.println("### Selecting subscription length ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[1]/strong[1])[1]")));
 
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("$('input:radio[name=rdSubscription][value=4]').trigger('click');");
+		//JavascriptExecutor js = (JavascriptExecutor) driver;
+		//js.executeScript("$('input:radio[name=rdSubscription][value=4]').trigger('click');");
+		
+		driver.findElement(By.xpath("//input[@id='price_6']")).click();
 		driver.findElement(By.xpath("//input[@id='continue_btn']")).click();
 		takeScreenshot();
 
