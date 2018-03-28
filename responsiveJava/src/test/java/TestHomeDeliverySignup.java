@@ -353,7 +353,7 @@ public class TestHomeDeliverySignup {
 		//js.executeScript("$('input:radio[name=rdSubscription][value=4]').trigger('click');");
 		
 		driver.findElement(By.xpath("//input[@id='price_6']")).click();
-		driver.findElement(By.xpath("//input[@id='continue_btn']")).click();
+		driver.findElement(By.xpath("//ul[@id='available_offers_list']/li[1]")).click();
 		takeScreenshot();
 
 		reportiumClient.stepEnd("Select Subscription Length");
