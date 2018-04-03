@@ -18,6 +18,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -261,9 +262,12 @@ public class TestHomeDeliverySignup {
 		OS = capabilities.getCapability("platformName").toString();
 		driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 		if(device) {startLogging();}
-	
-		System.out.println(targetEnvironment + " - " + driver.manage().window().getSize());
 		
+		try{
+		System.out.println(targetEnvironment + " - " + driver.manage().window().getSize());
+		} catch (WebDriverException e) {
+			reportiumClient.reportiumAssert("Get browser size", false);
+		}
 		
 		
 		return driver;
