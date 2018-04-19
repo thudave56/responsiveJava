@@ -267,7 +267,7 @@ public class TestHomeDeliverySignup {
 			System.out.println("Trying to get browser size");
 			System.out.println(targetEnvironment + " - " + driver.manage().window().getSize());
 		} catch (WebDriverException e) {
-			reportiumClient.reportiumAssert("Get browser size", false);
+			//reportiumClient.reportiumAssert("Get browser size", false);
 		}
 		
 		
