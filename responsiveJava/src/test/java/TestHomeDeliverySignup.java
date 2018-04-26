@@ -263,6 +263,7 @@ public class TestHomeDeliverySignup {
 		driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 		if(device) {startLogging();}
 		
+		/*
 		try{
 			System.out.println("Trying to get browser size");
 			System.out.println(targetEnvironment + " - " + driver.manage().window().getSize());
@@ -270,7 +271,7 @@ public class TestHomeDeliverySignup {
 			//reportiumClient.reportiumAssert("Get browser size", false);
 			System.out.println("Failed to get browser size for " + targetEnvironment);
 		}
-		
+		*/
 		
 		return driver;
 	}
