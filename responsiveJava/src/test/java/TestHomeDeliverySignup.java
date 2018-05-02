@@ -342,7 +342,7 @@ public class TestHomeDeliverySignup {
 		
 		//System.out.println("### Entering zipcode ###");
 		driver.findElement(By.xpath("//input[@name='txtZip']")).clear();
-		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
+		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("01801");
 		//driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("secured.eW1U4AHF/7fA0km7X2ty2w==");
 		
 		
