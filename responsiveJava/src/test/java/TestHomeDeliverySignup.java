@@ -308,6 +308,11 @@ public class TestHomeDeliverySignup {
 		takeScreenshot();
 		*/
 		try{
+			Map<String, Object> params1 = new HashMap<>();
+			params1.put("generateHarFile", "true");
+			params1.put("profile", "4g_lte_good");
+			Object result1 = driver.executeScript("mobile:vnetwork:start", params1);
+			
 			openHomepage();
 			enterZipCode();
 			selectLength();
