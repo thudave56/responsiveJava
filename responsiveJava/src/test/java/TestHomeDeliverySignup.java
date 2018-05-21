@@ -1,5 +1,6 @@
 package test.java;
 
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
@@ -8,6 +9,7 @@ import org.testng.annotations.Test;
 import com.perfecto.reportium.client.ReportiumClient;
 import com.perfecto.reportium.client.ReportiumClientFactory;
 import com.perfecto.reportium.exception.ReportiumException;
+import com.perfecto.reportium.model.CustomField;
 import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
@@ -22,7 +24,6 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import ru.yandex.qatools.allure.annotations.Attachment;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -276,14 +277,14 @@ public class TestHomeDeliverySignup {
 		return driver;
 	}
 
-	@Attachment
+
 	public byte[] takeScreenshot() {
 		//System.out.println("Taking screenshot");
 		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 	}
 
 	@Test
-	public void BostonGlobeTest() {
+	public void BostonGlobeTest(ITestContext context) {
 	/*
 		driver.get("http://192.168.1.101:5000");
 		try {
@@ -310,7 +311,7 @@ public class TestHomeDeliverySignup {
 			openHomepage();
 			enterZipCode();
 			selectLength();
-			enterDetails();			
+			enterDetails( context);			
 		} catch (Exception e) {
 			ex = e;
             StringWriter sw = new StringWriter();
@@ -368,7 +369,7 @@ public class TestHomeDeliverySignup {
 		
 	}
 
-	public void enterDetails() {
+	public void enterDetails(ITestContext context) {
 		reportiumClient.stepStart("Enter Subscription Details");
 		sleep(1000);
 		//System.out.println("### Entering subscription details ###");
@@ -382,6 +383,16 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");
 		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");
 		takeScreenshot();
+		
+		Map<String, String> params = context.getCurrentXmlTest().getAllParameters();
+
+		
+		
+		if(params.get("targetEnvironment").equals("Edge 16")) {
+			System.out.println("Found Edge");
+			Assert.assertTrue(false);
+		}
+		
 		reportiumClient.stepEnd("Enter Subscription Details");
 	}
 
@@ -407,7 +418,11 @@ public class TestHomeDeliverySignup {
 	@BeforeMethod(alwaysRun = true)
 	public void beforeTest(Method method) {
 		String testName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
-		reportiumClient.testStart(testName, new TestContext());
+		reportiumClient.testStart(testName,                               
+				new TestContext.Builder()
+                .withCustomFields(new CustomField("perfecto.vcs.filePath",
+                                "responsiveJava/src/test/java/TestHomeDeliverySignup.java"))
+                .build());
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -441,10 +456,11 @@ public class TestHomeDeliverySignup {
 	}
 
 	protected static ReportiumClient getReportiumClient(RemoteWebDriver driver) {
-		
+	
 		
 		
 		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
+				.withCustomFields(new CustomField("perfecto.vcs.repositoryUrl", "https://github.com/perfectomobilepresales/responsiveJava"))
 				.withProject(new Project("Boston Globe", "1.0")) // Optional
 				.withContextTags("Build " + System.getProperty("BuildNumber"), "Software Version: 1.6", "Responsive Build Validation", "patrickm", System.getProperty("tunnelId")) // Optional
 				.withWebDriver(driver).build();
