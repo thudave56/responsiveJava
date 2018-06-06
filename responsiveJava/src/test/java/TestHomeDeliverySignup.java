@@ -201,13 +201,13 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
 			break;
-		case "Edge 16":
+		case "Edge Latest":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "10");
 			capabilities.setCapability("browserName", "Edge");
-			capabilities.setCapability("browserVersion", "16");
+			capabilities.setCapability("browserVersion", "latest");
 			capabilities.setCapability("resolution", "1600x1200");
 			capabilities.setCapability("location", "US East");
 			break;
