@@ -212,6 +212,17 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("location", "US East");
 			break;
 			
+		case "Edge Latest - 1":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Edge");
+			capabilities.setCapability("browserVersion", "latest-1");
+			capabilities.setCapability("resolution", "1600x1200");
+			capabilities.setCapability("location", "US East");
+			break;
+			
 		}
 
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
