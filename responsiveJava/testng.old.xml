@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="50" name="Java Responsive Web" parallel="tests">
+	<!-- <test name="Sign up for home delivery - Galaxy S6"> <parameter name="targetEnvironment" 
+		value="Chrome 54" /> <classes> <class name="test.java.TestHomeDeliverySignup2" 
+		/> </classes> </test> <test name="Sign up for home delivery - Galaxy Sx"> 
+		<parameter name="targetEnvironment" value="Chrome 54" /> <classes> <class 
+		name="test.java.TestHomeDeliverySignup2" /> </classes> </test> <test name="Sign 
+		up for home delivery - Galaxy S6"> <parameter name="targetEnvironment" value="Galaxy 
+		S6" /> <classes> <class name="test.java.UiValidation" /> </classes> </test> -->
+	
+ 	  
+	<test name="Sign up for home delivery - Galaxy S6">
+		<parameter name="targetEnvironment" value="Galaxy S6" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+
+	<test name="Sign up for home delivery - iPhone 6">
+		<parameter name="targetEnvironment" value="iPhone 6" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+
+	<test name="Sign up for home delivery - Chrome 56 Fast">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+		<test name="Sign up for home delivery - Chrome 56 Fast 2">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+	
+		<test name="Sign up for home delivery - Chrome 56 Fast 3">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+	
+		<test name="Sign up for home delivery - Chrome 56 Fast 4">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+	
+		<test name="Sign up for home delivery - Chrome 56 Fast 5">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+	
+		<test name="Sign up for home delivery - Chrome 56 Fast 6">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+		<test name="Sign up for home delivery - Chrome 56 Fast 7">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+		<test name="Sign up for home delivery - Chrome 56 Fast 8">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+		<test name="Sign up for home delivery - Chrome 56 Fast 9">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+		<test name="Sign up for home delivery - Chrome 56 Fast 10">
+		<parameter name="targetEnvironment" value="Chrome 56 Fast" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+  
+	<test name="Sign up for home delivery - IE 11">
+		<parameter name="targetEnvironment" value="Internet Explorer 11" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	<test name="Sign up for home delivery - FF 43">
+		<parameter name="targetEnvironment" value="Firefox 43" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	<test name="Sign up for home delivery - FF 46">
+		<parameter name="targetEnvironment" value="Firefox 46" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+
+	<test name="Sign up for home delivery - Chrome 48">
+		<parameter name="targetEnvironment" value="Chrome 48" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+ 
+	<test name="Sign up for home delivery - Chrome Beta">
+		<parameter name="targetEnvironment" value="Chrome Beta" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+  
+	<test name="Sign up for home delivery - Safari 10 Sierra">
+		<parameter name="targetEnvironment" value="Safari 10 Sierra" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+
+
+
+	<test name="Sign up for home delivery - Safari 8 Yosemite">
+		<parameter name="targetEnvironment" value="Safari 8 Yosemite" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+
+	<test name="Sign up for home delivery - Safari 9 Capitan">
+		<parameter name="targetEnvironment" value="Safari 9 Capitan" />
+		<classes>
+			<class name="test.java.TestHomeDeliverySignup" />
+		</classes>
+	</test>
+	
+</suite>	
