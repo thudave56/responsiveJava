@@ -24,9 +24,15 @@
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
+<<<<<<< Upstream, based on origin/master
 -->
 	<test name="Sign up for home delivery - Chrome 56 Fast 1">
 		<parameter name="targetEnvironment" value="Chrome 56" />
+=======
+
+	<test name="Sign up for home delivery - Chrome Latest">
+		<parameter name="targetEnvironment" value="Chrome Latest" />
+>>>>>>> 1d4a6ad Updated capabilities
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
@@ -37,8 +43,8 @@
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-	<test name="Sign up for home delivery - Chrome 56 Fast 2">
-		<parameter name="targetEnvironment" value="Chrome 56" />
+	<test name="Sign up for home delivery - Chrome Latest - 1">
+		<parameter name="targetEnvironment" value="Chrome Latest - 1" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
@@ -52,14 +58,14 @@
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-	<test name="Sign up for home delivery - FF 54">
-		<parameter name="targetEnvironment" value="Firefox 54" />
+	<test name="Sign up for home delivery - FF Latest">
+		<parameter name="targetEnvironment" value="Firefox Latest" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-	<test name="Sign up for home delivery - FF 53">
-		<parameter name="targetEnvironment" value="Firefox 53" />
+	<test name="Sign up for home delivery - FF Latest - 1">
+		<parameter name="targetEnvironment" value="Firefox Latest - 1" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
@@ -74,8 +80,8 @@
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>
 	</test>
-		<test name="Sign up for home delivery - Chrome 62">
-		<parameter name="targetEnvironment" value="Chrome 62" />
+		<test name="Sign up for home delivery - Chrome Latest - 2">
+		<parameter name="targetEnvironment" value="Chrome Latest - 2" />
 		<classes>
 			<class name="test.java.TestHomeDeliverySignup" />
 		</classes>

@@ -25,6 +25,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
@@ -69,28 +70,38 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserName", "mobileSafari");
 			break;
 		
-		case "Chrome 56":
+		case "Chrome Latest":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "10");
 			capabilities.setCapability("browserName", "Chrome");
-			capabilities.setCapability("browserVersion", "56");
+			capabilities.setCapability("browserVersion", "latest");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
 			break;
 			
-		case "Chrome 62":
+		case "Chrome Latest - 1":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "10");
 			capabilities.setCapability("browserName", "Chrome");
-			capabilities.setCapability("browserVersion", "62");
+			capabilities.setCapability("browserVersion", "latest-1");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
 			break;	
-
+		
+		case "Chrome Latest - 2":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Chrome");
+			capabilities.setCapability("browserVersion", "latest-2");
+			capabilities.setCapability("resolution", "1280x1024");
+			capabilities.setCapability("location", "US East");
+			break;	
 		case "Internet Explorer 11":
 			device = false;
 			fast = true;
@@ -102,38 +113,29 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("location", "US East");
 			break;
 
-		case "Firefox 54":
+		case "Firefox Latest":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "8.1");
 			capabilities.setCapability("browserName", "Firefox");
-			capabilities.setCapability("browserVersion", "54");
+			capabilities.setCapability("browserVersion", "latest");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
 			break;
 
-		case "Firefox 53":
+		case "Firefox Latest - 1":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "7");
 			capabilities.setCapability("browserName", "Firefox");
-			capabilities.setCapability("browserVersion", "53");
+			capabilities.setCapability("browserVersion", "latest-1");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
 			break;
 
-		case "Chrome 48":
-			device = false;
-			fast = false;
-			capabilities.setCapability("platformName", "Windows");
-			capabilities.setCapability("platformVersion", "XP");
-			capabilities.setCapability("browserName", "Chrome");
-			capabilities.setCapability("browserVersion", "48");
-			capabilities.setCapability("resolution", "1366x768");
-			capabilities.setCapability("location", "US East");
-			break;
+		
 		
 		case "Chrome Beta":
 			device = false;
@@ -277,36 +279,15 @@ public class TestHomeDeliverySignup {
 		return driver;
 	}
 
-
 	public byte[] takeScreenshot() {
 		//System.out.println("Taking screenshot");
 		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 	}
 
 	@Test
-	public void BostonGlobeTest(ITestContext context) {
-	/*
-		driver.get("http://192.168.1.101:5000");
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		takeScreenshot();
-		driver.findElementByXPath("//*[@id='login_username']").sendKeys("patrick");
-		driver.findElementByXPath("//*[@id='login_passwd']").sendKeys("test");
-		driver.findElementByXPath("//*[@id='ext-gen40']").click();
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		takeScreenshot();
-		
-		takeScreenshot();
-		*/
+	public void BostonGlobeTest() {
+
+
 		try{
 			if(device){
 				Map<String, Object> params1 = new HashMap<>();
@@ -317,7 +298,7 @@ public class TestHomeDeliverySignup {
 			openHomepage();
 			enterZipCode();
 			selectLength();
-			enterDetails( context);			
+			enterDetails();			
 		} catch (Exception e) {
 			ex = e;
             StringWriter sw = new StringWriter();
@@ -375,7 +356,7 @@ public class TestHomeDeliverySignup {
 		
 	}
 
-	public void enterDetails(ITestContext context) {
+	public void enterDetails() {
 		reportiumClient.stepStart("Enter Subscription Details");
 		sleep(1000);
 		//System.out.println("### Entering subscription details ###");
@@ -390,14 +371,6 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");
 		takeScreenshot();
 		
-		Map<String, String> params = context.getCurrentXmlTest().getAllParameters();
-
-		
-		
-		if(params.get("targetEnvironment").equals("Edge 16")) {
-			System.out.println("Found Edge");
-			Assert.assertTrue(false);
-		}
 		
 		reportiumClient.stepEnd("Enter Subscription Details");
 	}
