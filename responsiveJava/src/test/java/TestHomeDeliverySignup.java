@@ -225,10 +225,11 @@ public class TestHomeDeliverySignup {
 			
 		}
 
-		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
-		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));		
-		if(fast) { capabilities.setCapability("securityToken", System.getProperty("PerfectoToken"));}
-		//capabilities.setCapability("securityToken", "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJmZGNiNDRjMS1hN2VhLTQwM2MtYmNhOS1jNmYyOWVlNjg4OTkiLCJleHAiOjAsIm5iZiI6MCwiaWF0IjoxNTAwOTIzNjI0LCJpc3MiOiJodHRwczovL2F1dGgucGVyZmVjdG9tb2JpbGUuY29tL2F1dGgvcmVhbG1zL2RlbW8tcGVyZmVjdG9tb2JpbGUtY29tIiwiYXVkIjoib2ZmbGluZS10b2tlbi1nZW5lcmF0b3IiLCJzdWIiOiJlM2I3ODM1ZS03M2Y1LTQwYzAtYWE4YS00ZWVmYzg5NjU4NTUiLCJ0eXAiOiJPZmZsaW5lIiwiYXpwIjoib2ZmbGluZS10b2tlbi1nZW5lcmF0b3IiLCJzZXNzaW9uX3N0YXRlIjoiNTAyMGZjNGEtMzcxNi00ZDI3LTgxZTktYjcyN2U0MjJmYTY2IiwiY2xpZW50X3Nlc3Npb24iOiJjOGQxNGNlMi1iZTA1LTRmMDYtOTQyOS03NTNlMWNkMzYwNzMiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50Iiwidmlldy1wcm9maWxlIl19fX0.nt3aR7ZD1M21h32OWJUgI0Wc3cCZ9otJBRT24yiTTUpVNJlbgt9JxW-laCXVZYbaf3H4zTy8WdNAYIt8j26fBNH5UXPQRnIGqcSM_1cRPK_KYHRLJ_ELyZcX5B753MjOILRZeo44vkh5aOZl0nO_Afyij74sectzejnUFvf1vCpRzM_FEnWIo7TL8JsTO-1YfQ4R4VmPpU_tZUhT6sDlPTrwJ0v9b021cNIjpHtGeCXUT4Z-As0mfET1o6ITyWSIOQchWpJNDoKj-AAe9OyHSUfCNoM39dhSb4BEtWanj3ViYCkIgMXl0A73I1QmBC7FsboTf4yebkBWMaZkoe3SNw");        
+		// capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
+		// capabilities.setCapability("password", System.getProperty("PerfectoPassword"));		
+		// Note: Using the system.env this is pulling the token from a local environment variable on the executing system
+		capabilities.setCapability("securityToken", System.getenv("token"));   
+		//System.out.println("Perfecto Token " + System.getenv("token"));
 		
 		capabilities.setCapability("newCommandTimeout", "30");
 		if (device) { capabilities.setCapability("windTunnelPersona", "Georgia"); }
@@ -249,7 +250,6 @@ public class TestHomeDeliverySignup {
 			try {
 				System.out.println("Trying to aquire session: " + targetEnvironment);
 				if(fast) {
-					
 					driver = new RemoteWebDriver(new URL("https://demo.perfectomobile.com/nexperience/perfectomobile/wd/hub/fast"),
 						capabilities);
 					System.out.println(targetEnvironment + ": " + (System.nanoTime() - startTime) / 1000000);
@@ -372,14 +372,14 @@ public class TestHomeDeliverySignup {
 		sleep(1000);
 		//System.out.println("### Entering subscription details ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
-		driver.findElement(By.xpath("//input[@id='txtDeliveryFirstName']")).sendKeys("Patrick");
-		driver.findElement(By.xpath("//input[@id='txtDeliveryLastName']")).sendKeys("McCartney");
-		driver.findElement(By.xpath("//input[@id='txtDeliveryAddress1']")).sendKeys("28 Main St");
-		driver.findElement(By.xpath("//input[@id='txtDeliveryAddress2']")).sendKeys("Apt. 2");
-		driver.findElement(By.xpath("//input[@id='txtDeliveryAreaCode']")).sendKeys("781");
-		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone3']")).sendKeys("847");
-		driver.findElement(By.xpath("//input[@id='txtDeliveryPhone4']")).sendKeys("4433");
-		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");
+		driver.findElement(By.id("first-name")).sendKeys("Pat");
+		driver.findElement(By.xpath("//input[@id='last-name']")).sendKeys("McCartney");
+		driver.findElement(By.xpath("//input[@id='address1']")).sendKeys("28 Main St");
+		driver.findElement(By.xpath("//input[@id='address2']")).sendKeys("Apt. 2");
+		driver.findElement(By.xpath("//input[@id='area-code']")).sendKeys("781");
+		driver.findElement(By.xpath("//input[@id='phone3']")).sendKeys("847");
+		driver.findElement(By.xpath("//input[@id='phone4']")).sendKeys("4433");
+		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("patrickm@perfectomobile.com");
 		takeScreenshot();
 		
 		
