@@ -31,18 +31,6 @@
 			<version>${reportium-sdk.version}</version>
 		</dependency>
 		
-		<!-- Reporting SDK addition for Allure users -->
-		<!-- <dependency>
-			<groupId>com.perfecto.reporting-sdk</groupId>
-			<artifactId>reportium-allure-integration</artifactId>
-			<version>${reportium-sdk.version}</version>
-		</dependency> -->
-
-		<!--Allure TestNG <dependency> <groupId>ru.yandex.qatools.allure</groupId> 
-			<artifactId>allure-testng-adaptor</artifactId> <version>${allure.version}</version> 
-			<exclusions> <exclusion> <groupId>junit</groupId> <artifactId>junit</artifactId> 
-			</exclusion> </exclusions> </dependency> -->
-		<!--Matchers -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
@@ -58,14 +46,14 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>LATEST</version>
+			<version>3.141.59</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-api -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-api</artifactId>
-			<version>LATEST</version>
+			<version>3.141.59</version>
 		</dependency>
 
 		<dependency>
