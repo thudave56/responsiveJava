@@ -38,7 +38,7 @@ public class TestHomeDeliverySignup2 {
 
 	public RemoteWebDriver createDriver(String targetEnvironment) throws MalformedURLException {
 		new DesiredCapabilities();
-		DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+		DesiredCapabilities capabilities = new DesiredCapabilities();
 		//capabilities.setCapability("openDeviceTimeout", 5);
 
 		switch (targetEnvironment) {

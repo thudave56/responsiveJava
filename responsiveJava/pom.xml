@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<allure.version>1.4.10</allure.version>
 		<aspectj.version>1.8.5</aspectj.version>
-		<reportium-sdk.version>RELEASE</reportium-sdk.version>
+		<reportium-sdk.version>2.3</reportium-sdk.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -24,27 +24,19 @@
 		</repository>
 	</repositories>
 	<dependencies>
-		<!-- Reportium SDK -->
-			<dependency>
-                <groupId>com.perfecto.reporting-sdk</groupId>
-                <artifactId>reportium-java</artifactId>
-                <version>${reportium-sdk.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perfecto.reporting-sdk</groupId>
-                <artifactId>reportium-import-java</artifactId>
-                <version>${reportium-sdk.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perfecto.reporting-sdk</groupId>
-                <artifactId>reportium-import-selenium</artifactId>
-                <version>${reportium-sdk.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perfecto.reporting-sdk</groupId>
-                <artifactId>reportium-testng</artifactId>
-                <version>${reportium-sdk.version}</version>
-            </dependency>
+		<!-- Reporting SDK -->
+		<dependency>
+			<groupId>com.perfecto.reporting-sdk</groupId>
+			<artifactId>reportium-java</artifactId>
+			<version>${reportium-sdk.version}</version>
+		</dependency>
+		
+		<!-- Reporting SDK addition for Allure users -->
+		<!-- <dependency>
+			<groupId>com.perfecto.reporting-sdk</groupId>
+			<artifactId>reportium-allure-integration</artifactId>
+			<version>${reportium-sdk.version}</version>
+		</dependency> -->
 
 		<!--Allure TestNG <dependency> <groupId>ru.yandex.qatools.allure</groupId> 
 			<artifactId>allure-testng-adaptor</artifactId> <version>${allure.version}</version> 
@@ -118,7 +110,6 @@
 						<suiteXmlFile>testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
 					<argLine>
-
 						"-javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
 					</argLine>
 
