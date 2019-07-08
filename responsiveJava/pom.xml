@@ -20,7 +20,7 @@
 		<repository>
 			<id>perfectomobile</id>
 			<name>Perfecto mobile</name>
-			<url>https://repo1.perfectomobile.com/public/repositories/maven/com></url>
+			<url>https://repo1.perfectomobile.com/public/repositories/maven</url>
 		</repository>
 	</repositories>
 	<dependencies>
