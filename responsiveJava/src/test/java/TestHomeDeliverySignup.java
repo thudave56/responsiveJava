@@ -1,5 +1,6 @@
 package test.java;
 
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
@@ -8,6 +9,7 @@ import org.testng.annotations.Test;
 import com.perfecto.reportium.client.ReportiumClient;
 import com.perfecto.reportium.client.ReportiumClientFactory;
 import com.perfecto.reportium.exception.ReportiumException;
+import com.perfecto.reportium.model.CustomField;
 import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
@@ -18,10 +20,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import ru.yandex.qatools.allure.annotations.Attachment;
+
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,6 +46,7 @@ public class TestHomeDeliverySignup {
 	String OS;
 	int retry = 1; //number of times to retry
 	int retryInterval = 5000; //retry in MS
+	Exception ex = null;
 
 	public RemoteWebDriver createDriver(String targetEnvironment) throws MalformedURLException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -63,18 +70,38 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserName", "mobileSafari");
 			break;
 		
-		case "Chrome 56":
+		case "Chrome Latest":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "10");
 			capabilities.setCapability("browserName", "Chrome");
-			capabilities.setCapability("browserVersion", "56");
+			capabilities.setCapability("browserVersion", "latest");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
-
+			
+		case "Chrome Latest - 1":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Chrome");
+			capabilities.setCapability("browserVersion", "latest-1");
+			capabilities.setCapability("resolution", "1280x1024");
+			capabilities.setCapability("location", "US East");
+			break;	
+		
+		case "Chrome Latest - 2":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Chrome");
+			capabilities.setCapability("browserVersion", "latest-2");
+			capabilities.setCapability("resolution", "1280x1024");
+			capabilities.setCapability("location", "US East");
+			break;	
 		case "Internet Explorer 11":
 			device = false;
 			fast = true;
@@ -84,44 +111,31 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "11");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 
-		case "Firefox 54":
+		case "Firefox Latest":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "8.1");
 			capabilities.setCapability("browserName", "Firefox");
-			capabilities.setCapability("browserVersion", "54");
+			capabilities.setCapability("browserVersion", "latest");
 			capabilities.setCapability("resolution", "1366x768");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 
-		case "Firefox 53":
+		case "Firefox Latest - 1":
 			device = false;
 			fast = true;
 			capabilities.setCapability("platformName", "Windows");
 			capabilities.setCapability("platformVersion", "7");
 			capabilities.setCapability("browserName", "Firefox");
-			capabilities.setCapability("browserVersion", "53");
+			capabilities.setCapability("browserVersion", "latest-1");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 
-		case "Chrome 48":
-			device = false;
-			fast = false;
-			capabilities.setCapability("platformName", "Windows");
-			capabilities.setCapability("platformVersion", "XP");
-			capabilities.setCapability("browserName", "Chrome");
-			capabilities.setCapability("browserVersion", "48");
-			capabilities.setCapability("resolution", "1366x768");
-			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
-			break;
+		
 		
 		case "Chrome Beta":
 			device = false;
@@ -132,7 +146,6 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("browserVersion", "beta");
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
-			capabilities.setCapability("deviceType", "WEB");
 			break;
 		case "Safari 10 Sierra":
 			device = false;
@@ -188,17 +201,47 @@ public class TestHomeDeliverySignup {
 			capabilities.setCapability("resolution", "1280x1024");
 			capabilities.setCapability("location", "US East");
 			break;
+		case "Edge Latest":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Edge");
+			capabilities.setCapability("browserVersion", "latest");
+			capabilities.setCapability("resolution", "1600x1200");
+			capabilities.setCapability("location", "US East");
+			break;
+			
+		case "Edge Latest - 1":
+			device = false;
+			fast = true;
+			capabilities.setCapability("platformName", "Windows");
+			capabilities.setCapability("platformVersion", "10");
+			capabilities.setCapability("browserName", "Edge");
+			capabilities.setCapability("browserVersion", "latest-1");
+			capabilities.setCapability("resolution", "1600x1200");
+			capabilities.setCapability("location", "US East");
+			break;
 			
 		}
 
 		capabilities.setCapability("user", System.getProperty("PerfectoUsername"));
 		capabilities.setCapability("password", System.getProperty("PerfectoPassword"));		
-		if(fast) { capabilities.setCapability("offline-token", System.getProperty("PerfectoToken"));}
+		if(fast) { capabilities.setCapability("securityToken", System.getProperty("PerfectoToken"));}
+		//capabilities.setCapability("securityToken", "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJmZGNiNDRjMS1hN2VhLTQwM2MtYmNhOS1jNmYyOWVlNjg4OTkiLCJleHAiOjAsIm5iZiI6MCwiaWF0IjoxNTAwOTIzNjI0LCJpc3MiOiJodHRwczovL2F1dGgucGVyZmVjdG9tb2JpbGUuY29tL2F1dGgvcmVhbG1zL2RlbW8tcGVyZmVjdG9tb2JpbGUtY29tIiwiYXVkIjoib2ZmbGluZS10b2tlbi1nZW5lcmF0b3IiLCJzdWIiOiJlM2I3ODM1ZS03M2Y1LTQwYzAtYWE4YS00ZWVmYzg5NjU4NTUiLCJ0eXAiOiJPZmZsaW5lIiwiYXpwIjoib2ZmbGluZS10b2tlbi1nZW5lcmF0b3IiLCJzZXNzaW9uX3N0YXRlIjoiNTAyMGZjNGEtMzcxNi00ZDI3LTgxZTktYjcyN2U0MjJmYTY2IiwiY2xpZW50X3Nlc3Npb24iOiJjOGQxNGNlMi1iZTA1LTRmMDYtOTQyOS03NTNlMWNkMzYwNzMiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50Iiwidmlldy1wcm9maWxlIl19fX0.nt3aR7ZD1M21h32OWJUgI0Wc3cCZ9otJBRT24yiTTUpVNJlbgt9JxW-laCXVZYbaf3H4zTy8WdNAYIt8j26fBNH5UXPQRnIGqcSM_1cRPK_KYHRLJ_ELyZcX5B753MjOILRZeo44vkh5aOZl0nO_Afyij74sectzejnUFvf1vCpRzM_FEnWIo7TL8JsTO-1YfQ4R4VmPpU_tZUhT6sDlPTrwJ0v9b021cNIjpHtGeCXUT4Z-As0mfET1o6ITyWSIOQchWpJNDoKj-AAe9OyHSUfCNoM39dhSb4BEtWanj3ViYCkIgMXl0A73I1QmBC7FsboTf4yebkBWMaZkoe3SNw");        
+		
 		capabilities.setCapability("newCommandTimeout", "30");
 		if (device) { capabilities.setCapability("windTunnelPersona", "Georgia"); }
 		//	if (device) { capabilities.setCapability("windTunnelPersona", "Ross"); }
 		
 		capabilities.setCapability("scriptName", "Boston Globe - " + targetEnvironment);
+		capabilities.setCapability("outputVideo", true);
+		capabilities.setCapability("outputReport", true);
+		String tunnelId;
+		tunnelId = System.getProperty("tunnelId");
+		if(tunnelId != null){
+			capabilities.setCapability("tunnelId",	tunnelId);
+		}
 		
 		long startTime; 
 		while(retry > 0 && driver == null) {
@@ -218,25 +261,35 @@ public class TestHomeDeliverySignup {
 				
 			} catch (Exception e) {
 				retry--;
-				e.printStackTrace();
+				
 				System.out.println("Failed to aquire browser session: " + targetEnvironment + ". Retrying...");
 				sleep(retryInterval);
+				ex = e;
+	            StringWriter sw = new StringWriter();
+	            e.printStackTrace(new PrintWriter(sw));
+	            String exceptionAsString = sw.toString();
+	            System.out.println(exceptionAsString);
+	            throw e; 
 			}		
 		}
 		
 		OS = capabilities.getCapability("platformName").toString();
 		driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
-		driver.manage().window().maximize();
 		if(device) {startLogging();}
-	
-
 		
-		
+		/*
+		try{
+			System.out.println("Trying to get browser size");
+			System.out.println(targetEnvironment + " - " + driver.manage().window().getSize());
+		} catch (WebDriverException e) {
+			//reportiumClient.reportiumAssert("Get browser size", false);
+			System.out.println("Failed to get browser size for " + targetEnvironment);
+		}
+		*/
 		
 		return driver;
 	}
 
-	@Attachment
 	public byte[] takeScreenshot() {
 		//System.out.println("Taking screenshot");
 		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
@@ -244,50 +297,78 @@ public class TestHomeDeliverySignup {
 
 	@Test
 	public void BostonGlobeTest() {
-		openHomepage();
-		enterZipCode();
-		selectLength();
-		enterDetails();
+
+
+		try{
+			if(device){
+				Map<String, Object> params1 = new HashMap<>();
+				params1.put("generateHarFile", "true");
+				params1.put("profile", "4g_lte_good");
+				Object result1 = driver.executeScript("mobile:vnetwork:start", params1);
+			}
+			openHomepage();
+			enterZipCode();
+			selectLength();
+			enterDetails();			
+		} catch (Exception e) {
+			ex = e;
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String exceptionAsString = sw.toString();
+            System.out.println(exceptionAsString);
+            throw e; 
+		}
+
+
+
+		
 	}
 
 	public void openHomepage() {
-		reportiumClient.testStep("Open Homepage");
+		reportiumClient.stepStart("Open Homepage");
 		//System.out.println("### Opening homepage ###");
 		driver.get(
 				"http://subscribe.bostonglobe.com/B0004/?rc=WW011964&globe_rc=WW011964&p1=BGHeader_HomeDeliverySubscription");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='txtZip']")));
 		takeScreenshot();
-
+		reportiumClient.stepEnd("Open Homepage");
 
 
 	}
 
 	public void enterZipCode() {
-		reportiumClient.testStep("Enter Zip Code");
+		reportiumClient.stepStart("Enter Zip Code");
+		
 		//System.out.println("### Entering zipcode ###");
 		driver.findElement(By.xpath("//input[@name='txtZip']")).clear();
-		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("02116");
+		driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("01801");
+		//driver.findElement(By.xpath("//input[@name='txtZip']")).sendKeys("secured.eW1U4AHF/7fA0km7X2ty2w==");
+		
+		
 		driver.findElement(By.xpath("//input[@id='cmdSubmit']")).click();
 		takeScreenshot();
+		reportiumClient.stepEnd("Enter Zip Code");
 	}
 
 	public void selectLength() {
-		reportiumClient.testStep("Select Subscription Length");
+		reportiumClient.stepStart("Select Subscription Length");
 		//System.out.println("### Selecting subscription length ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//label[1]/strong[1])[1]")));
 
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("$('input:radio[name=rdSubscription][value=4]').trigger('click');");
+		//JavascriptExecutor js = (JavascriptExecutor) driver;
+		//js.executeScript("$('input:radio[name=rdSubscription][value=4]').trigger('click');");
+		
+		driver.findElement(By.xpath("//ul[@id='available_offers_list']/li[1]")).click();
 		driver.findElement(By.xpath("//input[@id='continue_btn']")).click();
 		takeScreenshot();
 
-		
+		reportiumClient.stepEnd("Select Subscription Length");
 		
 		
 	}
 
 	public void enterDetails() {
-		reportiumClient.testStep("Enter Subscription Details");
+		reportiumClient.stepStart("Enter Subscription Details");
 		sleep(1000);
 		//System.out.println("### Entering subscription details ###");
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtDeliveryFirstName']")));
@@ -301,6 +382,8 @@ public class TestHomeDeliverySignup {
 		driver.findElement(By.xpath("//input[@id='txtDeliveryEMail']")).sendKeys("patrickm@perfectomobile.com");
 		takeScreenshot();
 		
+		
+		reportiumClient.stepEnd("Enter Subscription Details");
 	}
 
 	@BeforeClass(alwaysRun = true)
@@ -325,11 +408,20 @@ public class TestHomeDeliverySignup {
 	@BeforeMethod(alwaysRun = true)
 	public void beforeTest(Method method) {
 		String testName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
-		reportiumClient.testStart(testName, new TestContext());
+		reportiumClient.testStart(testName,                               
+				new TestContext.Builder()
+                .withCustomFields(new CustomField("perfecto.vcs.filePath",
+                                "responsiveJava/src/test/java/TestHomeDeliverySignup.java"))
+                .build());
 	}
 
 	@AfterMethod(alwaysRun = true)
 	public void afterTest(ITestResult testResult) {
+		if(ex != null){
+			testResult.setStatus(ITestResult.FAILURE);
+			testResult.setThrowable(ex);
+		}
+		
 		int status = testResult.getStatus();
 		
 		switch (status) {
@@ -354,12 +446,13 @@ public class TestHomeDeliverySignup {
 	}
 
 	protected static ReportiumClient getReportiumClient(RemoteWebDriver driver) {
-		
+	
 		
 		
 		PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
+				.withCustomFields(new CustomField("perfecto.vcs.repositoryUrl", "https://github.com/perfectomobilepresales/responsiveJava"))
 				.withProject(new Project("Boston Globe", "1.0")) // Optional
-				.withContextTags("Build " + System.getProperty("BuildNumber"), "Software Version: 1.6", "Responsive Build Validation", "patrickm") // Optional
+				.withContextTags("Build " + System.getProperty("BuildNumber"), "Software Version: 1.6", "Responsive Build Validation", "patrickm", System.getProperty("tunnelId")) // Optional
 				.withWebDriver(driver).build();
 
 		return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
