@@ -12,22 +12,17 @@
 	<properties>
 		<compiler.version>1.7</compiler.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
 		<allure.version>1.4.10</allure.version>
 		<aspectj.version>1.8.5</aspectj.version>
 	</properties>
 	<repositories>
 		<repository>
 			<id>perfectomobile</id>
-			<name>Perfecto</name>
-			<url>http://repository-perfectomobile.forge.cloudbees.com/public</url>
+			<name>Perfecto mobile</name>
+			<url>https://repo1.perfectomobile.com/public/repositories/maven></url>
 		</repository>
 	</repositories>
-
-
-
 	<dependencies>
-
 		<!-- Reportium SDK -->
 		<dependency>
 			<groupId>com.perfecto.reporting-sdk</groupId>
@@ -56,7 +51,7 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.8.21</version>
+			<version>6.8</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

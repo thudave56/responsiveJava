@@ -2,3 +2,11 @@
 /pom.xml
 /target/
 /test-output/
+/responsiveJava.iml
+*.vscode
+*.DS_Store
+*.idea
+../.DS_Store
+../.idea/
+../.vscode
+*.settings
