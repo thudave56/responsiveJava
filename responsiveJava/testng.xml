@@ -39,13 +39,6 @@
 		</classes>
 	</test>
 	
-		<test name="Sign up for home delivery - Edge Latest - 1">
-		<parameter name="targetEnvironment" value="Edge Latest - 1" />
-		<classes>
-			<class name="test.java.TestHomeDeliverySignup" />
-		</classes>
-	</test>
-	
 	<test name="Sign up for home delivery - Chrome Latest - 1">
 		<parameter name="targetEnvironment" value="Chrome Latest - 1" />
 		<classes>
